@@ -89,11 +89,13 @@ body{margin:0;background:#001372}
 .ucard .fb input{position:absolute;opacity:0;width:1px;height:1px}
 .ucard .fb:focus-within{box-shadow:0 0 0 calc(3*var(--u)) #0062ff}
 .ucard .ub{position:absolute;left:calc(597.1*var(--u));top:calc(117.7*var(--u));width:calc(220*var(--u));height:calc(71*var(--u));border-radius:calc(10*var(--u));background:#0062ff!important;color:#fff!important;font-size:calc(29.1*var(--u));font-weight:700;text-align:center!important}
-.utab{position:absolute;left:calc(75*var(--u));top:calc(536*var(--u));width:calc(1955*var(--u));background:#fff;border-radius:calc(28*var(--u));overflow:hidden}
-.ug{display:grid;grid-template-columns:calc(251.4*var(--u)) calc(237.9*var(--u)) calc(209.5*var(--u)) calc(234.4*var(--u)) calc(373*var(--u)) calc(649*var(--u));align-items:center;text-align:center}
-.ug>*:last-child{padding-right:calc(179*var(--u))}
+.utab{position:absolute;left:calc(30*var(--u));top:calc(536*var(--u));width:calc(2062*var(--u));background:#fff;border-radius:calc(28*var(--u));overflow:hidden}
+.ug{display:grid;grid-template-columns:1.05fr 2fr 1.2fr 1.2fr 1.35fr 1fr 3.6fr;align-items:center;text-align:center}
+.ug>*{min-width:0;padding:0 calc(8*var(--u));overflow-wrap:anywhere}
+.ug>*:last-child{text-align:left;padding:calc(8*var(--u)) calc(24*var(--u))}
+.del{display:inline-flex;align-items:center;justify-content:center;width:calc(120*var(--u));height:calc(40.9*var(--u));border-radius:calc(6*var(--u));background:#ff5a52!important;color:#fff!important;font-size:calc(25.9*var(--u));font-weight:700;margin:0 auto}
 .uh{height:calc(89*var(--u));background:#ebf3ff;font-size:calc(28.1*var(--u));font-weight:700;color:#000}
-.ur{height:calc(73.1*var(--u));font-size:calc(28*var(--u));font-weight:500;color:#000}
+.ur{min-height:calc(73.1*var(--u));font-size:calc(28*var(--u));font-weight:500;color:#000}
 .ur:first-of-type{margin-top:calc(3*var(--u))}
 .dl{display:inline-flex;align-items:center;justify-content:center;width:calc(176.5*var(--u));height:calc(40.9*var(--u));border-radius:calc(6*var(--u));background:#0062ff!important;color:#fff!important;font-size:calc(25.9*var(--u));font-weight:700;margin:0 auto}
 .dl::after{content:'';position:absolute}
@@ -244,9 +246,9 @@ body{overflow-x:hidden}
     <button class="ub" onClick="{{doEdit}}">수정 업로드</button>
   </div>
   <div class="utab">
-    <div class="ug uh"><span>해당연월</span><span>파일명</span><span>업로드 날짜</span><span>수정 업로드</span><span>다운 로드</span><span>변경 로그</span></div>
+    <div class="ug uh"><span>해당연월</span><span>파일명</span><span>업로드 날짜</span><span>수정 업로드</span><span>다운 로드</span><span>삭제</span><span>변경 로그</span></div>
     <sc-for list="{{upRows}}" as="r" hint-placeholder-count="2">
-      <div class="ug ur"><span>{{r.ym}}</span><span>{{r.file}}</span><span>{{r.up}}</span><span>{{r.mod}}</span><span><button class="dl" onClick="{{r.dl}}" aria-label="{{r.ym}} 엑셀 다운로드">EXCEL 다운</button></span><span class="lg">{{r.log}}</span></div>
+      <div class="ug ur"><span>{{r.ym}}</span><span>{{r.file}}</span><span>{{r.up}}</span><span>{{r.mod}}</span><span><button class="dl" onClick="{{r.dl}}" aria-label="{{r.ym}} 엑셀 다운로드">EXCEL 다운</button></span><span><button class="del" onClick="{{r.del}}" aria-label="{{r.ym}} 업로드 삭제">삭제</button></span><span class="lg">{{r.log}}</span></div>
     </sc-for>
     <div style="height:calc(560*var(--u))"></div>
   </div>
@@ -283,6 +285,7 @@ body{overflow-x:hidden}
     <sc-if value="{{pop.hasBtns}}" hint-placeholder-val="{{ false }}">
       <div class="bt">
         <sc-if value="{{pop.retry}}" hint-placeholder-val="{{ false }}"><button class="p" onClick="{{save}}">다시 저장하기</button></sc-if>
+        <sc-if value="{{pop.confirm}}" hint-placeholder-val="{{ false }}"><button class="p" onClick="{{confirmOk}}">{{pop.okText}}</button></sc-if>
         <button class="{{pop.closeCls}}" onClick="{{closePop}}">{{pop.closeText}}</button>
       </div>
     </sc-if>
@@ -338,6 +341,12 @@ class Component extends DCLogic {
   /* ---------- 초안(draft) 수정 : 저장하기를 눌러야 서버에 반영 ---------- */
   upd(fn) { const d = JSON.parse(JSON.stringify(this.state.draft)); fn(d); this.setState({ draft: d }); }
   showPop(p) { clearTimeout(this.popTimer); this.setState({ pop: p }); }
+  confirmOk = () => {
+    const k = this.delYm; this.delYm = null;
+    if (!k) { this.setState({ pop: null }); return; }
+    this.upd(x => { delete x.months[k]; });
+    this.showPop({ kind: 'result', title: window.IRUDA.ymLabel(k) + ' 업로드를 삭제했어요', text: '저장하기를 눌러야 서버에 최종 반영됩니다.', closeText: '확인' });
+  };
   closePop = () => { clearTimeout(this.popTimer); this.setState({ pop: null }); };
   info(title, text) { this.showPop({ kind: 'info', title, text }); }
 
@@ -475,7 +484,7 @@ class Component extends DCLogic {
     const months = Object.keys(d.months).sort().reverse();
     const upRows = months.map(k => {
       const m = d.months[k];
-      return { ym: I.ymLabel(k), file: (m.file && m.file.name) || '-', up: m.uploadedAt || '-', mod: m.modifiedAt || '-', log: (m.log || []).join(', '),
+      return { del: () => { this.delYm = k; this.showPop({ kind: 'confirm', title: I.ymLabel(k) + ' 업로드를 삭제할까요?', text: '해당 월의 급여·실적 데이터와 업로드한 엑셀 파일이 삭제됩니다.\n(저장하기를 누르기 전까지는 서버에 반영되지 않아요.)', okText: '삭제' }); }, ym: I.ymLabel(k), file: (m.file && m.file.name) || '-', up: m.uploadedAt || '-', mod: m.modifiedAt || '-', log: (m.log || []).join(', '),
         dl: () => {
           const fail = () => this.info('다운로드할 수 없어요', '저장된 원본 파일이 없거나 이 환경에서 다운로드가 막혀 있어요.');
           if (!(m.file && m.file.name)) { fail(); return; }
@@ -499,8 +508,8 @@ class Component extends DCLogic {
     const p = s.pop;
     const pop = p ? {
       title: p.title, text: p.text || '',
-      isSaving: p.kind === 'saving', isOk: p.kind === 'saved', isNo: p.kind === 'fail' || p.kind === 'noop', isInfo: p.kind === 'info' || p.kind === 'result',
-      hasBtns: p.kind !== 'saving' && p.kind !== 'saved', retry: p.kind === 'fail', closeText: p.closeText || (p.kind === 'fail' ? '닫기' : '확인'), closeCls: p.kind === 'fail' ? 's' : 'p'
+      isSaving: p.kind === 'saving', isOk: p.kind === 'saved', isNo: p.kind === 'fail' || p.kind === 'noop' || p.kind === 'confirm', isInfo: p.kind === 'info' || p.kind === 'result',
+      hasBtns: p.kind !== 'saving' && p.kind !== 'saved', retry: p.kind === 'fail', confirm: p.kind === 'confirm', okText: p.okText || '삭제', closeText: p.closeText || ((p.kind === 'fail' || p.kind === 'confirm') ? (p.kind === 'confirm' ? '취소' : '닫기') : '확인'), closeCls: (p.kind === 'fail' || p.kind === 'confirm') ? 's' : 'p'
     } : { title: '', text: '' };
 
     const tabs = ['staff', 'law', 'up', 'msg'];
@@ -521,7 +530,7 @@ class Component extends DCLogic {
       lawRows, addLaw: this.addLaw, dnote, setDnote,
       upYmText: I.ymLabel(s.upYm), edYmText: I.ymLabel(s.edYm), upPrev: this.upPrev, upNext: this.upNext, edPrev: this.edPrev, edNext: this.edNext,
       upName: s.upFileName || '엑셀 파일을 업로드 해주세요', upHas: s.upFileName ? 'has' : '', edName: s.edFileName || '엑셀 파일을 업로드 해주세요', edHas: s.edFileName ? 'has' : '',
-      pickUp: this.pickUp, pickEd: this.pickEd, doUpload: this.doUpload, doEdit: this.doEdit, upRows,
+      pickUp: this.pickUp, pickEd: this.pickEd, confirmOk: this.confirmOk, doUpload: this.doUpload, doEdit: this.doEdit, upRows,
       msgYmText: I.ymLabel(s.msgYm), msgPrev: this.msgPrev, msgNext: this.msgNext, msgRows, msgH,
       hasPop: !!p, pop, closePop: this.closePop
     };

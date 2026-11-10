@@ -193,12 +193,10 @@ body{background:#eef1f6}
   <img class="logo" src="./assets/5482377154ed920d0cb96cd0eca71c1a.svg" alt="이루다Bank" style="left:calc(40.8*var(--u));top:calc(50.7*var(--u));width:calc(272.9*var(--u))">
   <p class="greet">{{userName}} 님<br>이번 한달도 수고 많으셨어요</p>
 
-  <sc-if value="{{hasMsg}}" hint-placeholder-val="{{ false }}">
   <div class="notice">
     <img class="bell" src="./assets/5552c9ef850e8771bd8038b7be929bae.png" alt="">
     <b>개인전달</b><span>{{msgText}}</span>
   </div>
-  </sc-if>
 
   <div class="hero">
     <h2>{{monthName}} 급여내역</h2>

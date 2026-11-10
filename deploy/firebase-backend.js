@@ -235,6 +235,12 @@
         m.fileChunks = n;
       }
     });
+    /* 삭제된 월의 원본 엑셀 조각 문서 정리 */
+    if (prev && prev.months) Object.keys(prev.months).forEach(function (ym) {
+      if (w.months[ym]) return;
+      var n0 = prev.months[ym].fileChunks || 0;
+      for (var j = 0; j < n0; j++) ops.push({ t: 'del', p: 'files/' + ym + '_' + j });
+    });
     var next = toDocs(w), sm = stableMap(next);
     Object.keys(files).forEach(function (p) { ops.push({ t: 'set', p: p, data: files[p] }); });
     Object.keys(next).forEach(function (p) { if (snap[p] !== sm[p]) ops.push({ t: 'set', p: p, data: next[p] }); });
