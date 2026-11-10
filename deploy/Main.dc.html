@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>이루다Bank 직원 앱</title>
 <script>window.__resources={"https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
 <script src="./support.js"></script>
@@ -167,6 +168,7 @@ body{margin:0}
 /* 배포용: 데스크톱에서는 가운데 정렬, 모바일에서는 화면 너비에 맞춤 */
 body{background:#eef1f6}
 .cq{width:min(100vw,430px)!important;height:calc(min(100vw,430px)*844/390)!important;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,.08)}
+@media (max-width:600px){body{background:#fff}.cq{width:100vw!important;height:100vh!important;height:100dvh!important;box-shadow:none}}
 </style>
 </helmet>
 
