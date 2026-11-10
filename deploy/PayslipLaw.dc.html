@@ -49,7 +49,7 @@ class Component extends DCLogic {
   };
   componentDidMount() {
     const I = window.IRUDA;
-    I.restore().catch(() => null).then(r => ((r || I.mode === 'local') ? I.refresh() : null)).then(() => this.sync()).catch(() => { });
+    I.restore().catch(() => null).then(r => ((r || I.mode === 'local') ? I.refresh() : null)).then(() => { this.sync(); setTimeout(() => document.body.setAttribute('data-ready', '1'), 120); }).catch(() => { document.body.setAttribute('data-ready', 'err'); });
     this.timer = setInterval(this.sync, 1000); window.addEventListener('focus', this.sync);
   }
   componentWillUnmount() { clearInterval(this.timer); window.removeEventListener('focus', this.sync); }

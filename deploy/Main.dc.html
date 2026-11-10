@@ -18,7 +18,9 @@ body{margin:0}
 .cq{container-type:inline-size;position:relative;overflow:hidden;background:#fff}
 .app{--u:calc(100cqw/600);position:absolute;inset:0;font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#232323;-webkit-font-smoothing:antialiased;letter-spacing:0}
 .app *{box-sizing:border-box}
-.app button{font-family:inherit;border:0;background:none;padding:0;margin:0;cursor:pointer;color:inherit;text-align:inherit}
+.app :where(button){font-family:inherit;border:0;background:none;padding:0;margin:0;cursor:pointer;color:inherit;text-align:inherit}
+.app .pdf{background:#001372;width:calc(100% - 53.4*var(--u));margin:0 calc(26.7*var(--u));text-align:center}
+.app .pdf[disabled]{opacity:.6;cursor:default}
 .app input{font-family:inherit}
 .app a{text-decoration:none;color:inherit}
 .scr{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background:#fff}
@@ -240,7 +242,7 @@ body{background:#eef1f6}
   </button>
   <span class="cl" style="left:calc(361.0*var(--u));top:calc(1160.6*var(--u))">법률근거</span>
   
-</div><button class="logout" onClick="{{doLogout}}" style="text-align: center; position: absolute; left: 0px; top: 799px">로그아웃</button></div>
+</div></div>
 </sc-if>
 
 <!-- ===================== 급여명세 ===================== -->
@@ -274,7 +276,7 @@ body{background:#eef1f6}
         <sc-for list="{{hourRows}}" as="r" hint-placeholder-count="10"><div class="li"><span>{{r.l}}</span><span class="v"><b>{{r.v}}</b><i>{{r.u}}</i></span></div></sc-for>
       </div>
     </div>
-    <a class="pdf" href="Payslip.dc.html" style="color: #ffffff">명세서 다운로드 ( PDF )</a>
+    <button class="pdf" onClick="{{downloadPdf}}" style="color: #ffffff">{{pdfLabel}}</button>
   </div>
   <sc-if value="{{noData}}" hint-placeholder-val="{{ false }}"><div class="nodata ab" style="left:0;right:0;top:calc(430*var(--u))">{{ymText}} 등록된 급여 자료가 없습니다.</div></sc-if>
 </div></div>
@@ -471,6 +473,17 @@ class Component extends DCLogic {
   };
   doLogout = () => { window.IRUDA.logout(); this.setState({ store: null, user: null, screen: 'login', modal: null, loginId: '', loginPw: '', loginErr: '' }); };
 
+  downloadPdf = () => {
+    const I = window.IRUDA, s = this.state;
+    if (s.pdfBusy || !s.user || !s.ym) return;
+    const has = !!I.view(s.store || { months: {} }, s.ym, s.user.name);
+    if (!has) { this.setState({ pdfMsg: '등록된 급여 자료가 없어 PDF를 만들 수 없어요.' }); return; }
+    const ym = s.ym, name = '급여명세서_' + s.user.name + '_' + ym + '.pdf';
+    this.setState({ pdfBusy: true, pdfMsg: '' });
+    I.makePayslipPdf(ym).then(blob => I.downloadBlob(name, blob)).then(r => {
+      this.setState({ pdfBusy: false, pdfMsg: r === false ? 'PDF 저장에 실패했어요. 잠시 후 다시 시도해 주세요.' : '' });
+    }).catch(() => this.setState({ pdfBusy: false, pdfMsg: 'PDF를 만들지 못했어요. 잠시 후 다시 시도해 주세요.' }));
+  };
   goHome = () => this.setState({ screen: 'home', modal: null });
   goStmt = () => this.setState({ screen: 'stmt' });
   goPerf = () => this.setState({ screen: 'perf' });
@@ -526,7 +539,7 @@ class Component extends DCLogic {
       loginId: s.loginId, loginPw: s.loginPw, loginErr: s.loginErr,
       userName: user.name, hireText: I.hireLabel(user.hire),
       monthName: I.monthOnly(ym), ymText: I.ymLabel(ym), dYmText: s.showAll ? '전체' : I.ymLabel(ym), dMonthName: s.showAll ? '전체' : I.monthOnly(ym),
-      noData: !has,
+      noData: !has, pdfLabel: s.pdfBusy ? 'PDF 만드는 중…' : (s.pdfMsg || '명세서 다운로드 ( PDF )'),
       hasMsg: !!msg, msgText: msg,
       h: { net: f(v.net), base: f(v.base), extra: f(v.extraTotal), incentive: f(v.incentive), tax: f(v.tax), deduct: f(v.deduct), totalPay: f(v.totalPay), totalDeduct: f(v.totalDeduct), yearEnd: f(p.yearEnd) },
       pf: { finalSales: f(pf.finalSales), finalIncentive: f(pf.finalIncentive) },
@@ -542,7 +555,7 @@ class Component extends DCLogic {
       detailRows: rows.map(r => ({ cat: r.cat, vendor: r.vendor, serial: r.serial, amount: f(r.amount) })),
       noDetail: rows.length === 0, detailTotal: f(detailTotal), allCls: s.showAll ? 'on' : '', showAll: s.showAll ? 'true' : 'false',
       onLoginId: this.onLoginId, onLoginPw: this.onLoginPw, onLoginKey: this.onLoginKey, doLogin: this.doLogin, doLogout: this.doLogout,
-      goHome: this.goHome, goStmt: this.goStmt, goPerf: this.goPerf, goLaw: this.goLaw, goDetail: this.goDetail, backToDeduct: this.backToDeduct,
+      downloadPdf: this.downloadPdf, goHome: this.goHome, goStmt: this.goStmt, goPerf: this.goPerf, goLaw: this.goLaw, goDetail: this.goDetail, backToDeduct: this.backToDeduct,
       openBase: this.openBase, openExtra: this.openExtra, openIncentive: this.openIncentive, openTax: this.openTax, openDeduct: this.openDeduct,
       closeModal: this.closeModal, stop: this.stop, toggleAll: this.toggleAll, prevMonth: this.prevMonth, nextMonth: this.nextMonth
     };

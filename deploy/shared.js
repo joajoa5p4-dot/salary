@@ -323,6 +323,60 @@
     } catch (e) { return false; }
   }
 
+
+  /* ---------- 급여명세서 PDF (1·2페이지를 한 파일로) ---------- */
+  var _libs = {};
+  function loadScript(src) {
+    if (_libs[src]) return _libs[src];
+    return (_libs[src] = new Promise(function (res, rej) {
+      var el = document.createElement('script'); el.src = src; el.onload = res; el.onerror = function () { delete _libs[src]; rej(new Error('LIB')); };
+      document.head.appendChild(el);
+    }));
+  }
+  function capturePage(url) {
+    return new Promise(function (res, rej) {
+      var fr = document.createElement('iframe');
+      fr.setAttribute('aria-hidden', 'true');
+      fr.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;height:1123px;border:0;visibility:hidden';
+      var done = false, t0 = Date.now();
+      function end(err, canvas) { if (done) return; done = true; try { fr.remove(); } catch (e) { } err ? rej(err) : res(canvas); }
+      fr.onload = function () {
+        (function poll() {
+          if (done) return;
+          var d, el;
+          try { d = fr.contentDocument; el = d && d.querySelector('.cq .pp'); } catch (e) { return end(new Error('FRAME')); }
+          var ready = d && d.body && d.body.getAttribute('data-ready');
+          if (ready === 'err') return end(new Error('LOAD'));
+          if (el && ready === '1') {
+            var go = function () {
+              window.html2canvas(d.querySelector('.cq'), { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false, width: 794, height: 1123, windowWidth: 794, windowHeight: 1123 })
+                .then(function (c) { end(null, c); }, function (e) { end(e || new Error('CAPTURE')); });
+            };
+            (d.fonts && d.fonts.ready ? d.fonts.ready : Promise.resolve()).then(function () { setTimeout(go, 250); });
+            return;
+          }
+          if (Date.now() - t0 > 25000) return end(new Error('TIMEOUT'));
+          setTimeout(poll, 150);
+        })();
+      };
+      fr.src = url;
+      document.body.appendChild(fr);
+    });
+  }
+  function makePayslipPdf(ym) {
+    return Promise.all([loadScript('./vendor/html2canvas.min.js'), loadScript('./vendor/jspdf.umd.min.js')]).then(function () {
+      return capturePage('./Payslip.dc.html?ym=' + encodeURIComponent(ym));
+    }).then(function (c1) {
+      return capturePage('./PayslipLaw.dc.html').then(function (c2) {
+        var J = window.jspdf.jsPDF, pdf = new J({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+        pdf.addImage(c1.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, 210, 297);
+        pdf.addPage();
+        pdf.addImage(c2.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, 210, 297);
+        return pdf.output('blob');
+      });
+    });
+  }
+
   /* ---------- 사원 계정 엑셀 내보내기 / 불러오기 ---------- */
   var ACCT_HEAD = ['이름', '입사일', '부서', '아이디', '비밀번호'];
   function accountsToRows(accounts) { return [ACCT_HEAD].concat(accounts.map(function (a) { return [a.name, a.hire, a.dept, a.loginId, a.pw]; })); }
@@ -386,6 +440,6 @@
   }
 
   var api = { mode: 'local', attachBackend: attachBackend, refresh: refresh, restore: restore, login: login, logout: logout, getFile: getFile, defaultLaw: defaultLaw, imageToWebp: imageToWebp,
-    buildXlsx: buildXlsx, downloadBlob: downloadBlob, accountsToRows: accountsToRows, importAccounts: importAccounts, clone: clone, seed: seed, load: load, serverSave: serverSave, getSession: getSession, setSession: setSession, fmt: fmt, fmtH: fmtH, ymLabel: ymLabel, monthOnly: monthOnly, shiftYm: shiftYm, hireLabel: hireLabel, stamp: stamp, view: view, parseXlsx: parseXlsx, applyUpload: applyUpload, bufToB64: bufToB64, download: download };
+    buildXlsx: buildXlsx, makePayslipPdf: makePayslipPdf, downloadBlob: downloadBlob, accountsToRows: accountsToRows, importAccounts: importAccounts, clone: clone, seed: seed, load: load, serverSave: serverSave, getSession: getSession, setSession: setSession, fmt: fmt, fmtH: fmtH, ymLabel: ymLabel, monthOnly: monthOnly, shiftYm: shiftYm, hireLabel: hireLabel, stamp: stamp, view: view, parseXlsx: parseXlsx, applyUpload: applyUpload, bufToB64: bufToB64, download: download };
   window.IRUDA = api;
 })();
