@@ -1,0 +1,7 @@
+{
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/", "destination": "/Main.dc.html" },
+    { "source": "/admin", "destination": "/Admin.dc.html" }
+  ]
+}

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>급여명세서 PDF 1페이지</title>
+<script>window.__resources={"https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
+<script src="./support.js"></script>
+<script src="./firebase-config.js"></script>
+<script src="./shared.js"></script>
+<script src="./firebase-backend.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Pretendard';src:url(./assets/575b91c4c7e4e63ec980292da8280a30.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+body{margin:0}
+.cq{container-type:inline-size;position:relative;overflow:hidden;background:#fff}
+.pp{--u:calc(100cqw/1100);position:absolute;inset:0;font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#232323;-webkit-font-smoothing:antialiased}
+.pp *{box-sizing:border-box}
+.ab{position:absolute}
+.logo{position:absolute;height:auto;display:block}
+.pt{position:absolute;right:calc(54*var(--u));top:calc(131*var(--u));font-size:calc(15*var(--u));font-weight:400;color:#444;white-space:nowrap;line-height:calc(20*var(--u))}
+.nt{position:absolute;left:calc(58*var(--u));top:calc(189*var(--u));width:calc(991*var(--u));height:calc(54*var(--u));border-radius:calc(14*var(--u));background:#001372;color:#fff}
+.nt img{position:absolute;left:calc(38*var(--u));top:calc(11*var(--u));width:calc(36*var(--u));height:auto}
+.nt b{position:absolute;left:calc(83*var(--u));top:0;height:100%;display:flex;align-items:center;font-size:calc(17*var(--u));font-weight:700}
+.nt span{position:absolute;left:calc(170*var(--u));right:calc(20*var(--u));top:0;height:100%;display:flex;align-items:center;font-size:calc(17*var(--u));font-weight:400;white-space:nowrap;overflow:hidden}
+.sm{position:absolute;left:calc(58*var(--u));top:calc(255*var(--u));width:calc(991*var(--u));height:calc(91*var(--u));border-radius:calc(20*var(--u));background:#0062ff;color:#fff}
+.sm .a{position:absolute;left:calc(42*var(--u));top:0;height:100%;display:flex;align-items:center;font-size:calc(31*var(--u));font-weight:500;white-space:nowrap}
+.sm .b{position:absolute;left:calc(565*var(--u));top:0;height:100%;display:flex;align-items:center;font-size:calc(21*var(--u));font-weight:500}
+.sm .c{position:absolute;right:calc(52*var(--u));top:0;height:100%;display:flex;align-items:baseline;gap:calc(10*var(--u));padding-top:calc(24*var(--u))}
+.sm .c b{font-size:calc(44*var(--u));font-weight:700;line-height:1}
+.sm .c i{font-style:normal;font-size:calc(36*var(--u));font-weight:600;line-height:1}
+.col{position:absolute;top:calc(373*var(--u))}
+.sh{height:calc(60*var(--u));border-top:calc(1*var(--u)) solid #232323;border-bottom:calc(.6*var(--u)) solid #232323;display:flex;align-items:center;justify-content:space-between;font-size:calc(21*var(--u));font-weight:700;color:#232323}
+.sh .v{display:flex;align-items:baseline;gap:calc(8*var(--u));color:#000}
+.sh .v b{font-size:calc(25*var(--u));font-weight:700}
+.sh .v i{font-style:normal;font-size:calc(20*var(--u));font-weight:600}
+.sh.bl .v{color:#0062ff}
+.ls{padding:calc(8.8*var(--u)) 0 calc(25*var(--u))}
+.li{height:calc(32.8*var(--u));display:flex;align-items:center;justify-content:space-between;font-size:calc(19*var(--u));font-weight:500;color:#444}
+.li .v{display:flex;align-items:baseline;gap:calc(8*var(--u))}
+.li .v b{font-weight:500;font-size:calc(19*var(--u))}
+.li .v i{font-style:normal;font-weight:600;font-size:calc(19*var(--u))}
+.rl{border-top:calc(1*var(--u)) solid #232323;border-bottom:calc(.6*var(--u)) solid #232323}
+.rl .rs{padding:calc(11.7*var(--u)) 0 calc(0*var(--u))}
+.rl .ri{height:calc(37.1*var(--u));display:flex;align-items:center;justify-content:space-between;font-size:calc(19*var(--u));font-weight:500;color:#444}
+.rl .ri .v{display:flex;align-items:baseline;gap:calc(12*var(--u))}
+.rl .ri .v b{font-weight:500;font-size:calc(19*var(--u))}
+.rl .ri .v i{font-style:normal;font-weight:600;font-size:calc(19*var(--u))}
+.rl .ye{height:calc(60*var(--u));display:flex;align-items:center;justify-content:space-between;font-size:calc(19.5*var(--u));font-weight:700;color:#232323;margin-top:calc(2*var(--u))}
+.rl .ye .v{display:flex;align-items:baseline;gap:calc(12*var(--u));font-weight:500;color:#444}
+.rl .ye .v b{font-weight:500;font-size:calc(19*var(--u))}
+.rl .ye .v i{font-style:normal;font-weight:600;font-size:calc(19*var(--u))}
+.dn{padding-top:calc(16*var(--u));font-size:calc(15*var(--u));font-weight:400;line-height:calc(23*var(--u));color:#767676;white-space:pre-wrap;overflow-wrap:anywhere}
+.cd{position:absolute;left:calc(574*var(--u));width:calc(475*var(--u));height:calc(66*var(--u));border-radius:calc(12*var(--u));background:#f4f6f9}
+.cd img{position:absolute;height:auto}
+.cd .l{position:absolute;left:calc(99*var(--u));top:0;height:100%;display:flex;align-items:center;font-size:calc(19*var(--u));font-weight:500}
+.cd .v{position:absolute;right:calc(28*var(--u));top:0;height:100%;display:flex;align-items:baseline;gap:calc(10*var(--u));padding-top:calc(20*var(--u))}
+.cd .v b{font-size:calc(24*var(--u));font-weight:700;line-height:1}
+.cd .v i{font-style:normal;font-size:calc(19*var(--u));font-weight:600;line-height:1}
+.id{position:absolute;left:calc(58*var(--u));font-size:calc(20*var(--u));font-weight:700;color:#232323;white-space:pre;line-height:calc(26*var(--u))}
+.co{position:absolute;left:calc(710*var(--u));top:calc(1450*var(--u));font-size:calc(28*var(--u));font-weight:700;white-space:nowrap;line-height:calc(36*var(--u))}
+.co span{font-weight:500}
+.st{position:absolute;left:calc(958*var(--u));top:calc(1425*var(--u));width:calc(84*var(--u));height:auto;mix-blend-mode:multiply}
+@media screen{body{background:#eef1f6}.cq{margin:0 auto}}
+</style>
+</helmet>
+
+<div class="cq" style="width:794px;height:1123px">
+<div class="pp">
+  <img class="logo" src="./assets/5482377154ed920d0cb96cd0eca71c1a.svg" alt="이루다Bank" style="left:calc(62.5*var(--u));top:calc(97*var(--u));width:calc(273*var(--u))">
+  <div class="pt">출력일시 : {{printAt}}</div>
+  <sc-if value="{{hasMsg}}" hint-placeholder-val="{{ true }}"><div class="nt"><img src="./assets/5552c9ef850e8771bd8038b7be929bae.png" alt=""><b>개인전달</b><span>{{msgText}}</span></div></sc-if>
+  <div class="sm"><div class="a" style="font-size: 21.4px">{{userName}} 님의&nbsp; &nbsp;{{monthName}} 급여내역</div><div class="b">실 수령액</div><div class="c" style="font-size: 14px"><b>{{h.net}}</b><i>원</i></div></div>
+
+  <div class="col" style="left:calc(58*var(--u));width:calc(475*var(--u))">
+    <div class="sh"><span>지급 내역</span><span class="v"><b>{{h.totalPay}}</b><i>원</i></span></div>
+    <div class="ls"><sc-for list="{{payRows}}" as="r" hint-placeholder-count="9"><div class="li"><span>{{r.l}}</span><span class="v"><b>{{r.v}}</b><i>원</i></span></div></sc-for></div>
+    <div class="sh bl"><span>공제 내역</span><span class="v"><b>{{h.totalDeduct}}</b><i>원</i></span></div>
+    <div class="ls" style="padding-top:calc(9.8*var(--u));padding-bottom:calc(25.4*var(--u));border-bottom:calc(.6*var(--u)) solid #232323"><sc-for list="{{dedRows}}" as="r" hint-placeholder-count="11"><div class="li"><span>{{r.l}}</span><span class="v"><b>{{r.v}}</b><i>원</i></span></div></sc-for></div>
+    <sc-if value="{{hasNote}}" hint-placeholder-val="{{ true }}"><div class="dn">{{noteText}}</div></sc-if>
+  </div>
+
+  <div class="col rl" style="left:calc(574*var(--u));width:calc(475*var(--u));top:calc(372*var(--u))">
+    <div class="rs"><sc-for list="{{hourRows}}" as="r" hint-placeholder-count="10"><div class="ri"><span>{{r.l}}</span><span class="v"><b>{{r.v}}</b><i>{{r.u}}</i></span></div></sc-for></div>
+    <div class="ye"><span>연말 정산</span><span class="v"><b>{{h.yearEnd}}</b><i>원</i></span></div>
+  </div>
+
+  <div class="cd" style="top:calc(856*var(--u))"><img src="./assets/9640e6b2feb08c066976079131ee449e.png" alt="" style="left:calc(16*var(--u));top:calc(9*var(--u));width:calc(60*var(--u))"><span class="l">나의 기본급</span><span class="v"><b>{{h.base}}</b><i>원</i></span></div>
+  <div class="cd" style="top:calc(930.3*var(--u))"><img src="./assets/bc729c5d687b03d26be78d04197e9cb7.png" alt="" style="left:calc(19*var(--u));top:calc(4*var(--u));width:calc(56*var(--u))"><span class="l">초과 특근수당</span><span class="v"><b>{{h.extra}}</b><i>원</i></span></div>
+  <div class="cd" style="top:calc(1004.6*var(--u))"><img src="./assets/c027ee23f75c72a4fa819ee2bd41af6a.png" alt="" style="left:calc(20*var(--u));top:calc(5*var(--u));width:calc(56*var(--u))"><span class="l">나의 인센티브</span><span class="v"><b>{{h.incentive}}</b><i>원</i></span></div>
+  <div class="cd" style="top:calc(1078.9*var(--u))"><img src="./assets/7ab1f02f0349f0a7d8b15c047e784af0.png" alt="" style="left:calc(18*var(--u));top:calc(8*var(--u));width:calc(50*var(--u))"><span class="l">나의 세금비용</span><span class="v"><b>{{h.tax}}</b><i>원</i></span></div>
+  <div class="cd" style="top:calc(1153.2*var(--u))"><img src="./assets/a6208f3afa29199347fc7dd95694a01f.png" alt="" style="left:calc(20*var(--u));top:calc(7*var(--u));width:calc(50*var(--u))"><span class="l">나의 차감내역</span><span class="v"><b>{{h.deduct}}</b><i>원</i></span></div>
+
+  <div class="id" style="top:calc(1375*var(--u))">성 명 :  {{userName}}</div>
+  <div class="id" style="top:calc(1412*var(--u))">직 무 :  {{dept}}</div>
+  <div class="id" style="top:calc(1450*var(--u))">입 사 :  {{hireDot}}</div>
+  <div class="co">주식회사 이루다 <span>(인)</span></div>
+  <img class="st" src="./assets/b3351d5d510f67cebb9316319d501318.png" alt="직인">
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":794,"height":1123}}'>
+class Component extends DCLogic {
+  state = { store: null, user: null, ym: null };
+  /* PDF 페이지도 열 때마다 서버에서 최신 데이터를 조회해서 그립니다. */
+  componentDidMount() {
+    const I = window.IRUDA;
+    I.restore().catch(() => null).then(r => {
+      if (!r && I.mode !== 'local') return;
+      return I.refresh().then(store => {
+        let user = r && r.role === 'emp' ? store.accounts.find(a => a.id === r.account.id) : null;
+        if (!user) user = store.accounts[0] || null;
+        let ym = null;
+        if (user) {
+          ym = I.kstPrevYm();
+        }
+        const q = (new URLSearchParams(location.search).get('ym') || '').trim();
+        if (user && /^\d{4}-\d{2}$/.test(q)) ym = q;
+        this.setState({ store, user, ym });
+        setTimeout(() => document.body.setAttribute('data-ready', '1'), 120);
+      });
+    }).catch(() => { document.body.setAttribute('data-ready', 'err'); });
+    this.timer = setInterval(this.syncNote, 1000); window.addEventListener('focus', this.syncNote);
+  }
+  syncNote = () => {
+    if (window.IRUDA.mode === 'firebase') return;
+    const st = window.IRUDA.load();
+    if ((st.deductNote || '') !== ((this.state.store || {}).deductNote || '')) this.setState({ store: st });
+  };
+  componentWillUnmount() { clearInterval(this.timer); window.removeEventListener('focus', this.syncNote); }
+  renderVals() {
+    const I = window.IRUDA, s = this.state, f = I.fmt;
+    const store = s.store || { months: {}, messages: {} };
+    const user = s.user || { name: '', hire: '', dept: '' };
+    const real = s.user && s.ym ? I.view(store, s.ym, user.name) : null;
+    const v = real || I.view({ months: { e: { pay: { e: {} }, perf: {}, settle: {} } } }, 'e', 'e');
+    const p = v.p;
+    const pay = [['기본급', p.base], ['포괄연장 수당', p.bulk], ['추가연장 수당', p.extra], ['휴일 수당', p.holiday], ['프로 모션', p.promo], ['직책 수당', p.position]];
+    if (Number(p.etcAllow) > 0) pay.push(['기타 수당', p.etcAllow]);
+    pay.push(['연차 수당', p.annual], ['인센 티브', p.incentive], ['교육비', p.edu]);
+    const ded = [['주휴 차감', p.weeklyDeduct], ['근태 차감', p.attendDeduct], ['갑근세', p.incomeTax], ['주민세', p.localTax], ['국민연금', p.pension], ['건강보험', p.health], ['장기요양', p.care], ['고용보험', p.employ], ['사업소득 공제', p.biz], ['추가 공제', p.extraDeduct], ['기타 공제', p.etcDeduct]];
+    const hours = [['근무 일수', '-', '일'], ['총 근무시간', '-', '시간'], ['포괄 연장', I.fmtH(p.hBulk), '시간'], ['추가 연장', I.fmtH(p.hExtra), '시간'], ['휴일 근로', I.fmtH(p.hHoliday), '시간'], ['연차', I.fmtH(p.hAnnual), '시간'], ['지각', I.fmtH(p.hLate), '시간'], ['조퇴', I.fmtH(p.hEarly), '시간'], ['결근', I.fmtH(p.hAbsent), '시간'], ['주휴차감', I.fmtH(p.hWeekly), '시간']];
+    const msg = s.ym ? (((store.messages || {})[s.ym] || {})[user.name] || '') : '';
+    const d = new Date(), z = (n) => ('0' + n).slice(-2);
+    const printAt = d.getFullYear() + '. ' + z(d.getMonth() + 1) + '. ' + z(d.getDate()) + ' ' + z(d.getHours()) + ':' + z(d.getMinutes()) + ':' + z(d.getSeconds());
+    const hp = String(user.hire || '').split('.');
+    return {
+      hasNote: !!String(store.deductNote || '').trim(), noteText: store.deductNote || '',
+      printAt, userName: user.name, dept: user.dept, hireDot: hp.length === 3 ? hp[0] + '. ' + hp[1] + '. ' + hp[2] : '',
+      monthName: s.ym ? I.monthOnly(s.ym) : '', hasMsg: !!msg, msgText: msg,
+      h: { net: f(v.net), totalPay: f(v.totalPay), totalDeduct: f(v.totalDeduct), yearEnd: f(p.yearEnd), base: f(v.base), extra: f(v.extraTotal), incentive: f(v.incentive), tax: f(v.tax), deduct: f(v.deduct) },
+      payRows: pay.map(r => ({ l: r[0], v: f(r[1]) })), dedRows: ded.map(r => ({ l: r[0], v: f(r[1]) })),
+      hourRows: hours.map(r => ({ l: r[0], v: r[1], u: r[2] }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>급여명세서 PDF 2페이지</title>
+<script>window.__resources={"https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
+<script src="./support.js"></script>
+<script src="./firebase-config.js"></script>
+<script src="./shared.js"></script>
+<script src="./firebase-backend.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Pretendard';src:url(./assets/575b91c4c7e4e63ec980292da8280a30.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+body{margin:0}
+.cq{container-type:inline-size;position:relative;overflow:hidden;background:#fff}
+.pp{--u:calc(100cqw/1100);position:absolute;inset:0;font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#232323;-webkit-font-smoothing:antialiased}
+.pp *{box-sizing:border-box}
+.logo{position:absolute;height:auto;display:block}
+.hd{position:absolute;left:calc(58*var(--u));width:calc(991*var(--u));top:calc(198*var(--u));height:calc(46*var(--u));border-bottom:calc(1.5*var(--u)) solid #111;font-size:calc(25*var(--u));font-weight:700;line-height:calc(30*var(--u));color:#232323}
+.bd{position:absolute;left:calc(58*var(--u));width:calc(991*var(--u));top:calc(244*var(--u))}
+.sc{padding:calc(7*var(--u)) 0 calc(20*var(--u));border-bottom:calc(.6*var(--u)) solid #8a8a8a}
+.sc:last-child{border-bottom:0}
+.sc h3{margin:0;font-size:calc(17*var(--u));font-weight:700;line-height:calc(24*var(--u));color:#232323}
+.sc p{margin:0;font-size:calc(17.5*var(--u));font-weight:400;line-height:calc(32*var(--u));color:#232323;white-space:pre-wrap;overflow-wrap:anywhere}
+@media screen{body{background:#eef1f6}.cq{margin:0 auto}}
+</style>
+</helmet>
+
+<div class="cq" style="width:794px;height:1123px">
+<div class="pp">
+  <img class="logo" src="./assets/5482377154ed920d0cb96cd0eca71c1a.svg" alt="이루다Bank" style="left:calc(62.5*var(--u));top:calc(97*var(--u));width:calc(273*var(--u))">
+  <div class="hd">고지 의무에 따른 임금의 산정 방식</div>
+  <div class="bd">
+    <sc-for list="{{cards}}" as="c" hint-placeholder-count="6"><div class="sc"><h3>{{c.title}}</h3><p>{{c.body}}</p></div></sc-for>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":794,"height":1123}}'>
+class Component extends DCLogic {
+  state = { store: null };
+  last = '';
+  sync = () => {
+    const st = window.IRUDA.load(), j = JSON.stringify(st.law || []);
+    if (j !== this.last) { this.last = j; this.setState({ store: st }); }
+  };
+  componentDidMount() {
+    const I = window.IRUDA;
+    I.restore().catch(() => null).then(r => ((r || I.mode === 'local') ? I.refresh() : null)).then(() => { this.sync(); setTimeout(() => document.body.setAttribute('data-ready', '1'), 120); }).catch(() => { document.body.setAttribute('data-ready', 'err'); });
+    this.timer = setInterval(this.sync, 1000); window.addEventListener('focus', this.sync);
+  }
+  componentWillUnmount() { clearInterval(this.timer); window.removeEventListener('focus', this.sync); }
+  renderVals() {
+    const store = this.state.store || { law: [] };
+    return { cards: (store.law || []).filter(c => c.body && c.body.trim()) };
+  }
+}
+</script>
+</body>
+</html>
