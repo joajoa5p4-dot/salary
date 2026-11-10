@@ -127,9 +127,12 @@ body{margin:0;background:#001372}
 .pic.ok{background:#0062ff}
 .pic.no{background:#ffb600}
 .pic.in{background:#001372}
-/* 배포용: PC 화면에서는 최대 1100px 폭으로 가운데 정렬 (브라우저 50% 축소와 같은 크기) */
-.cq{max-width:1100px;margin:0 auto}
-.app{width:100%!important}
+/* 배포용(PC): 내용은 최대 1100px 비율로 가운데, 상단 흰 바/파란 선은 화면 좌우 끝까지 채움 */
+body{overflow-x:hidden}
+.cq{overflow-x:clip}
+.app{--u:calc(min(100cqw,1100px)/2122);width:100%!important;max-width:1100px;margin:0 auto;overflow:visible!important}
+.top::before{content:'';position:absolute;top:0;bottom:0;left:-100vw;right:-100vw;background:#fff}
+.tline::after{content:'';position:absolute;top:0;bottom:0;left:100%;width:100vw;background:#0062ff}
 </style>
 </helmet>
 

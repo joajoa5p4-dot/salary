@@ -44,7 +44,8 @@
     var base = 'https://www.gstatic.com/firebasejs/' + C.sdkVersion + '/';
     return Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')]).then(function (m) {
       var app = m[0].initializeApp(C.firebase);
-      return { A: m[1], F: m[2], auth: m[1].getAuth(app), db: m[2].getFirestore(app) };
+      /* 로그인 상태를 브라우저 탭(세션)에만 유지 — 창/탭을 닫으면 자동로그인이 되지 않습니다. */
+      return { A: m[1], F: m[2], auth: m[1].initializeAuth(app, { persistence: m[1].browserSessionPersistence }), db: m[2].getFirestore(app) };
     });
   }
   function init() {

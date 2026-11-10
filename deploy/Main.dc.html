@@ -164,9 +164,9 @@ body{margin:0}
 .dtr b{font-weight:700;color:#0062ff}
 .dtr:first-of-type{margin-top:calc(0*var(--u))}
 .dpad{height:calc(1218.9*var(--u))}
-/* 배포용: 화면 가로 전체를 채움(PC), 세로 비율은 모바일 기준 유지 */
-body{background:#fff}
-.cq{width:100vw!important;height:calc(min(100vw,430px)*844/390)!important;margin:0}
+/* 배포용: 데스크톱에서는 가운데 정렬, 모바일에서는 화면 너비에 맞춤 */
+body{background:#eef1f6}
+.cq{width:min(100vw,430px)!important;height:calc(min(100vw,430px)*844/390)!important;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,.08)}
 </style>
 </helmet>
 
