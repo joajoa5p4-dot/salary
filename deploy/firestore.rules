@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    // 관리자: admins/{uid} 문서가 있는 계정 (콘솔에서만 만들 수 있음)
+    function isAdmin() { return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;   // 본인 문서 존재 여부만 확인 가능
+      allow write: if false;
+    }
+
+    // 직원 계정 정보: 본인 것만 읽기 / 관리자만 쓰기
+    match /accounts/{uid} {
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == uid);
+      allow write: if isAdmin();
+    }
+
+    // 급여 · 개인 메세지: 본인 것만 읽기(조회 시 where uid == 내 uid 필수) / 관리자만 쓰기
+    match /payroll/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow write: if isAdmin();
+    }
+    match /messages/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow write: if isAdmin();
+    }
+
+    // 법률 근거 · PDF 하단 문구: 로그인한 사람은 읽기 / 관리자만 쓰기
+    match /law/{id}       { allow read: if signedIn(); allow write: if isAdmin(); }
+    match /settings/{id}  { allow read: if signedIn(); allow write: if isAdmin(); }
+
+    // 직원 비밀번호(관리자 표 표시용): 관리자 전용
+    match /credentials/{uid} { allow read, write: if isAdmin(); }
+
+    // 월별 업로드 정보 · 원본 엑셀 조각: 관리자 전용
+    match /months/{ym}    { allow read, write: if isAdmin(); }
+    match /files/{id}     { allow read, write: if isAdmin(); }
+
+    match /{document=**} { allow read, write: if false; }
+  }
+}

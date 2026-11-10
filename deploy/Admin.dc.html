@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>이루다Bank 관리자 페이지</title>
+<script>window.__resources={"https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
+<script src="./support.js"></script>
+<script src="./firebase-config.js"></script>
+<script src="./shared.js"></script>
+<script src="./firebase-backend.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Pretendard';src:url(./assets/575b91c4c7e4e63ec980292da8280a30.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+body{margin:0;background:#001372}
+.cq{container-type:inline-size;width:100%;background:#001372}
+.app{--u:calc(100cqw/2122);position:relative;width:100%;background:#001372;font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#000;-webkit-font-smoothing:antialiased;overflow:hidden}
+.app *{box-sizing:border-box}
+.app button{font-family:inherit;border:0;background:none;padding:0;margin:0;cursor:pointer;color:inherit;text-align:inherit}
+.app input,.app textarea{font-family:inherit;border:0;outline:none;margin:0}
+.app a{text-decoration:none;color:inherit}
+.ab{position:absolute}
+.logo{position:absolute;height:auto;display:block}
+.sr{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden}
+
+/* ---------- 로그인 ---------- */
+.al-in{position:absolute;left:calc(761.8*var(--u));width:calc(598.6*var(--u));height:calc(90.6*var(--u));border-radius:calc(45.3*var(--u));background:#fff;padding:0 calc(59.5*var(--u));font-size:calc(28.9*var(--u));font-weight:500;color:#232323}
+.al-in::placeholder{color:#a3a3a3;opacity:1}
+.al-btn{position:absolute;left:calc(761.8*var(--u));top:calc(1075.8*var(--u));width:calc(598.6*var(--u));height:calc(90.6*var(--u));border-radius:calc(45.3*var(--u));background:#0062ff!important;color:#fff!important;font-size:calc(35.9*var(--u));font-weight:700;text-align:center!important}
+.al-err{position:absolute;left:0;right:0;top:calc(1196*var(--u));text-align:center;font-size:calc(26*var(--u));font-weight:500;color:#ff8f8a}
+.al-back{position:absolute;left:0;right:0;top:calc(1700*var(--u));text-align:center;font-size:calc(24*var(--u));font-weight:500;color:rgba(255,255,255,.75)}
+
+/* ---------- 헤더 / 탭 ---------- */
+.top{position:absolute;left:0;top:0;width:100%;height:calc(158.3*var(--u));background:#fff}
+.tline{position:absolute;left:calc(432.4*var(--u));right:0;top:calc(156.9*var(--u));height:calc(2*var(--u));background:#0062ff}
+.tab{position:absolute;top:calc(99.4*var(--u));width:calc(179.8*var(--u));height:calc(58.9*var(--u));border-radius:calc(22*var(--u)) calc(22*var(--u)) 0 0;background:#0062ff;color:#fff;font-size:calc(31.5*var(--u));font-weight:700;display:flex;align-items:center;justify-content:center;white-space:nowrap}
+.tab.on{background:#001372}
+.app .tab{background:#ebf3ff;color:#0062ff}
+.app .tab.on{background:#001372;color:#fff}
+.savebtn{position:absolute;left:calc(1866.2*var(--u));top:calc(36*var(--u));width:calc(163.9*var(--u));height:calc(61.1*var(--u));border-radius:calc(12*var(--u));background:#000!important;color:#fff!important;font-size:calc(25*var(--u));font-weight:700;display:flex;align-items:center;justify-content:center}
+.dirty{position:absolute;right:calc(222*var(--u));top:calc(36*var(--u));height:calc(61.1*var(--u));display:flex;align-items:center;gap:calc(10*var(--u));font-size:calc(22*var(--u));font-weight:500;color:#0049ff;white-space:nowrap}
+.dirty i{display:block;width:calc(12*var(--u));height:calc(12*var(--u));border-radius:50%;background:#0062ff}
+.lgo{position:absolute;right:calc(222*var(--u));top:calc(36*var(--u));height:calc(61.1*var(--u));display:flex;align-items:center;font-size:calc(22*var(--u));font-weight:500;color:#555}
+
+/* ---------- 사원 관리 ---------- */
+.xbtn{position:absolute;top:calc(174*var(--u));width:calc(180*var(--u));height:calc(46*var(--u));border-radius:calc(10*var(--u));background:#0062ff;color:#fff;font-size:calc(22*var(--u));font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;white-space:nowrap}
+.xbtn input{position:absolute;opacity:0;width:1px;height:1px}
+.xbtn:focus-within,.xbtn:focus-visible{box-shadow:0 0 0 calc(3*var(--u)) #fff}
+.app .xbtn{background:#0062ff;color:#fff}
+.hl{position:absolute;top:calc(231*var(--u));font-size:calc(29.6*var(--u));font-weight:500;color:#fff;text-align:center;line-height:calc(34*var(--u))}
+.srow{position:absolute;left:calc(92.6*var(--u));width:calc(1289.3*var(--u));height:calc(71.4*var(--u));background:#fff;border-radius:calc(14*var(--u))}
+.srow .xd{position:absolute;left:calc(17*var(--u));top:calc(20.1*var(--u));width:calc(31.3*var(--u));height:calc(31.3*var(--u));border-radius:calc(7*var(--u));background:#ebf3ff;color:#7a7a7a;font-size:calc(18*var(--u));font-weight:500;display:flex;align-items:center;justify-content:center;line-height:1}
+.srow .xd::after{content:'';position:absolute;inset:calc(-6*var(--u))}
+.cell{position:absolute;top:calc(8.8*var(--u));height:calc(53.8*var(--u));background:#ebf3ff;border-radius:calc(10*var(--u));text-align:center;font-size:calc(24.9*var(--u));font-weight:500;color:#000;width:100%}
+.cell:focus{box-shadow:inset 0 0 0 calc(2*var(--u)) #0062ff;background:#f3f8ff}
+.pnl{position:absolute;left:calc(1452.9*var(--u));width:calc(576.3*var(--u));background:#fff;border-radius:calc(20*var(--u))}
+.pnl h3{position:absolute;left:0;right:0;margin:0;text-align:center;font-size:calc(33.6*var(--u));font-weight:700;color:#000;line-height:calc(40*var(--u))}
+.pin{position:absolute;left:calc(29.8*var(--u));width:calc(516.4*var(--u));height:calc(71.1*var(--u));background:#ebf3ff;border-radius:calc(10*var(--u));padding:0 calc(46.6*var(--u));font-size:calc(22.7*var(--u));font-weight:500;color:#000}
+.pin::placeholder{color:#a3a3a3;opacity:1}
+.pin:focus{box-shadow:inset 0 0 0 calc(2*var(--u)) #0062ff}
+.pbtn{position:absolute;left:calc(29.8*var(--u));width:calc(516.4*var(--u));height:calc(71*var(--u));border-radius:calc(10*var(--u));background:#0062ff!important;color:#fff!important;font-size:calc(29.1*var(--u));font-weight:700;text-align:center!important}
+.foot{position:absolute;right:calc(77.7*var(--u));font-size:calc(24.8*var(--u));font-weight:400;color:#fff;white-space:pre}
+
+/* ---------- 법률 근거 ---------- */
+.addcard{position:absolute;left:calc(1720*var(--u));top:calc(276*var(--u));width:calc(309*var(--u));height:calc(69*var(--u));border-radius:calc(10*var(--u));background:#0062ff!important;color:#fff!important;font-size:calc(28*var(--u));font-weight:700;text-align:center!important}
+.dnbar{position:absolute;left:calc(79*var(--u));top:calc(276*var(--u));width:calc(1600*var(--u));height:calc(69*var(--u));background:#fff;border-radius:calc(14*var(--u))}
+.dnbar b{position:absolute;left:calc(26*var(--u));top:0;height:100%;display:flex;align-items:center;font-size:calc(22*var(--u));font-weight:700;color:#000;white-space:nowrap}
+.dnbar input{position:absolute;left:calc(372*var(--u));top:calc(11*var(--u));width:calc(1214*var(--u));height:calc(47*var(--u));background:#ebf3ff;border-radius:calc(10*var(--u));padding:0 calc(20*var(--u));font-size:calc(19*var(--u));font-weight:400;color:#444}
+.dnbar input:focus{box-shadow:inset 0 0 0 calc(2*var(--u)) #0062ff}
+.lcard{position:absolute;width:calc(963.5*var(--u));height:calc(246*var(--u));background:#fff;border-radius:calc(22*var(--u))}
+.lcard .ti{position:absolute;left:calc(22*var(--u));top:calc(18*var(--u));width:calc(800*var(--u));height:calc(46*var(--u));background:transparent;font-size:calc(28*var(--u));font-weight:700;color:#000;padding:0 calc(10.7*var(--u))}
+.lcard .ti:focus{box-shadow:inset 0 0 0 calc(2*var(--u)) #0062ff;border-radius:calc(8*var(--u))}
+.lcard .bd{position:absolute;left:calc(23.2*var(--u));top:calc(69*var(--u));width:calc(919.5*var(--u));height:calc(153.1*var(--u));background:#ebf3ff;border-radius:calc(10*var(--u));padding:calc(14*var(--u)) calc(20*var(--u));font-size:calc(19*var(--u));font-weight:400;line-height:calc(32*var(--u));color:#444;resize:none}
+.lcard .bd:focus{box-shadow:inset 0 0 0 calc(2*var(--u)) #0062ff}
+.lcard .xd{position:absolute;right:calc(18*var(--u));top:calc(18*var(--u));width:calc(31*var(--u));height:calc(31*var(--u));border-radius:calc(7*var(--u));background:#ebf3ff;color:#7a7a7a;font-size:calc(18*var(--u));display:flex;align-items:center;justify-content:center;line-height:1}
+.lcard .xd::after{content:'';position:absolute;inset:calc(-8*var(--u))}
+
+/* ---------- 업로드 ---------- */
+.ucard{position:absolute;top:calc(246*var(--u));width:calc(956*var(--u));height:calc(243*var(--u));background:#fff;border-radius:calc(22*var(--u))}
+.nv{position:absolute;width:calc(32*var(--u));height:calc(32*var(--u));border-radius:calc(6*var(--u));background:#0062ff!important;display:flex;align-items:center;justify-content:center}
+.nv::after{content:'';position:absolute;inset:calc(-8*var(--u))}
+.nv svg{width:calc(15*var(--u));height:calc(18*var(--u));display:block}
+.ucard .mt{position:absolute;left:calc(115.7*var(--u));top:calc(24*var(--u));font-size:calc(35.7*var(--u));font-weight:700;color:#262626;line-height:calc(44*var(--u));white-space:nowrap}
+.ucard .ut{position:absolute;left:calc(401.2*var(--u));top:calc(24*var(--u));font-size:calc(37.6*var(--u));font-weight:700;color:#000;line-height:calc(44*var(--u));white-space:nowrap}
+.ucard .fb{position:absolute;left:calc(61.1*var(--u));top:calc(117.7*var(--u));width:calc(516.4*var(--u));height:calc(71*var(--u));background:#ebf3ff;border-radius:calc(10*var(--u));padding:0 calc(46.6*var(--u));display:flex;align-items:center;font-size:calc(22.7*var(--u));font-weight:500;color:#a3a3a3;cursor:pointer;overflow:hidden;white-space:nowrap}
+.ucard .fb.has{color:#232323}
+.ucard .fb input{position:absolute;opacity:0;width:1px;height:1px}
+.ucard .fb:focus-within{box-shadow:0 0 0 calc(3*var(--u)) #0062ff}
+.ucard .ub{position:absolute;left:calc(597.1*var(--u));top:calc(117.7*var(--u));width:calc(220*var(--u));height:calc(71*var(--u));border-radius:calc(10*var(--u));background:#0062ff!important;color:#fff!important;font-size:calc(29.1*var(--u));font-weight:700;text-align:center!important}
+.utab{position:absolute;left:calc(75*var(--u));top:calc(536*var(--u));width:calc(1955*var(--u));background:#fff;border-radius:calc(28*var(--u));overflow:hidden}
+.ug{display:grid;grid-template-columns:calc(251.4*var(--u)) calc(237.9*var(--u)) calc(209.5*var(--u)) calc(234.4*var(--u)) calc(373*var(--u)) calc(649*var(--u));align-items:center;text-align:center}
+.ug>*:last-child{padding-right:calc(179*var(--u))}
+.uh{height:calc(89*var(--u));background:#ebf3ff;font-size:calc(28.1*var(--u));font-weight:700;color:#000}
+.ur{height:calc(73.1*var(--u));font-size:calc(28*var(--u));font-weight:500;color:#000}
+.ur:first-of-type{margin-top:calc(3*var(--u))}
+.dl{display:inline-flex;align-items:center;justify-content:center;width:calc(176.5*var(--u));height:calc(40.9*var(--u));border-radius:calc(6*var(--u));background:#0062ff!important;color:#fff!important;font-size:calc(25.9*var(--u));font-weight:700;margin:0 auto}
+.dl::after{content:'';position:absolute}
+.lg{font-size:calc(22.7*var(--u));font-weight:500;color:#767676}
+.dash{color:#000}
+
+/* ---------- 메세지 ---------- */
+.mcard{position:absolute;left:calc(81.6*var(--u));top:calc(261.9*var(--u));width:calc(1947.6*var(--u));background:#fff;border-radius:calc(14*var(--u))}
+.mnav{position:absolute;left:0;right:0;top:calc(26*var(--u));height:calc(44*var(--u))}
+.mnav .nv{top:calc(6*var(--u))}
+.mnav .mt{position:absolute;left:calc(824*var(--u));top:0;width:calc(300*var(--u));text-align:center;font-size:calc(35.7*var(--u));font-weight:700;color:#262626;line-height:calc(44*var(--u))}
+.mrow{position:absolute;left:0;right:0;height:calc(53.9*var(--u))}
+.mrow label{position:absolute;left:calc(41.1*var(--u));top:0;height:100%;display:flex;align-items:center;font-size:calc(25.9*var(--u));font-weight:500;color:#000;white-space:nowrap}
+.mrow input{position:absolute;left:calc(150*var(--u));right:calc(13.2*var(--u));top:0;height:100%;background:#ebf3ff;border-radius:calc(8*var(--u));padding:0 calc(20*var(--u));font-size:calc(22.7*var(--u));font-weight:500;color:#232323}
+.mrow input::placeholder{color:#a3a3a3;opacity:1}
+.mrow input:focus{box-shadow:inset 0 0 0 calc(2*var(--u)) #0062ff}
+
+/* ---------- 팝업 ---------- */
+.pov{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,10,60,.62);z-index:50;display:flex;align-items:center;justify-content:center}
+.pop{width:calc(760*var(--u));max-width:92vw;background:#fff;border-radius:calc(36*var(--u));padding:calc(60*var(--u)) calc(56*var(--u)) calc(52*var(--u));text-align:center;color:#232323}
+.pop h4{margin:calc(26*var(--u)) 0 0;font-size:calc(38*var(--u));font-weight:700;line-height:calc(48*var(--u))}
+.pop p{margin:calc(16*var(--u)) 0 0;font-size:calc(25*var(--u));font-weight:500;line-height:calc(38*var(--u));color:#444;white-space:pre-line}
+.pop .bt{display:flex;gap:calc(16*var(--u));justify-content:center;margin-top:calc(38*var(--u))}
+.pop .bt button{min-width:calc(220*var(--u));height:calc(70*var(--u));border-radius:calc(35*var(--u));font-size:calc(26*var(--u));font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 calc(28*var(--u));text-align:center}
+.pop .bt .p{background:#0062ff;color:#fff}
+.pop .bt .s{background:#ebf3ff;color:#0049ff}
+.spin{width:calc(88*var(--u));height:calc(88*var(--u));margin:0 auto;border-radius:50%;border:calc(10*var(--u)) solid #d6e4ff;border-top-color:#0062ff;animation:sp .9s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.pic{width:calc(88*var(--u));height:calc(88*var(--u));margin:0 auto;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.pic svg{width:calc(46*var(--u));height:calc(46*var(--u))}
+.pic.ok{background:#0062ff}
+.pic.no{background:#ffb600}
+.pic.in{background:#001372}
+/* 배포용: PC 화면에서는 최대 1100px 폭으로 가운데 정렬 (브라우저 50% 축소와 같은 크기) */
+.cq{max-width:1100px;margin:0 auto}
+.app{width:100%!important}
+</style>
+</helmet>
+
+<div class="cq">
+<div class="app" style="height: calc({{appH}}*var(--u)); width: 1500px">
+
+<!-- ===================== 관리자 로그인 ===================== -->
+<sc-if value="{{isLogin}}" hint-placeholder-val="{{ true }}">
+<div class="ab" style="left:0;top:0;width:100%;height:calc(1856.8*var(--u))">
+  <img class="logo" src="./assets/5482377154ed920d0cb96cd0eca71c1a.svg" alt="이루다Bank" style="left:calc(838.6*var(--u));top:calc(675.7*var(--u));width:calc(452.8*var(--u))">
+  <label class="sr" for="adid">아이디</label>
+  <input id="adid" class="al-in" style="top:calc(848.8*var(--u))" type="text" autocomplete="username" placeholder="아이디를 입력해 주세요" value="{{lgId}}" onChange="{{onLgId}}" onInput="{{onLgId}}">
+  <label class="sr" for="adpw">비밀번호</label>
+  <input id="adpw" class="al-in" style="top:calc(956.1*var(--u))" type="password" autocomplete="current-password" placeholder="비밀번호를 입력해 주세요" value="{{lgPw}}" onChange="{{onLgPw}}" onInput="{{onLgPw}}" onKeyDown="{{onLgKey}}">
+  <button class="al-btn" onClick="{{doLogin}}">관리자 로그인</button>
+  <sc-if value="{{lgErr}}" hint-placeholder-val="{{ false }}"><div class="al-err" role="alert">{{lgErr}}</div></sc-if>
+  <a class="al-back" href="Main.dc.html" style="color: #ffffff">직원 앱으로 돌아가기</a>
+</div>
+</sc-if>
+
+<!-- ===================== 관리자 본문 ===================== -->
+<sc-if value="{{isMain}}" hint-placeholder-val="{{ false }}">
+<div class="top">
+  <img class="logo" src="./assets/5482377154ed920d0cb96cd0eca71c1a.svg" alt="이루다Bank" style="left:calc(78.1*var(--u));top:calc(61.9*var(--u));width:calc(279.7*var(--u))">
+  <sc-if value="{{dirty}}" hint-placeholder-val="{{ false }}"><div class="dirty" role="status" style="right: 261px; top: 25px; position: absolute"><i></i>저장하지 않은 변경 사항이 있어요</div></sc-if>
+  <sc-if value="{{clean}}" hint-placeholder-val="{{ true }}"></sc-if>
+  <button class="savebtn" onClick="{{save}}">저장하기</button>
+</div>
+<div class="tline"></div>
+<button class="tab {{tabCls.staff}}" style="left:calc(432.4*var(--u))" role="tab" aria-selected="{{tabSel.staff}}" onClick="{{goStaff}}">사원 관리</button>
+<button class="tab {{tabCls.law}}" style="left:calc(612.2*var(--u))" role="tab" aria-selected="{{tabSel.law}}" onClick="{{goLaw}}">법률 근거</button>
+<button class="tab {{tabCls.up}}" style="left:calc(792*var(--u))" role="tab" aria-selected="{{tabSel.up}}" onClick="{{goUp}}">업로드</button>
+<button class="tab {{tabCls.msg}}" style="left:calc(972*var(--u))" role="tab" aria-selected="{{tabSel.msg}}" onClick="{{goMsg}}">메세지</button>
+
+<!-- ---------- 사원 관리 ---------- -->
+<sc-if value="{{tStaff}}" hint-placeholder-val="{{ true }}">
+<div class="ab" style="left: 40px; top: 0px; width: 100%; position: absolute">
+  
+  
+  <div class="hl" style="left:calc(158.1*var(--u));width:calc(214.1*var(--u))">이 름</div>
+  <div class="hl" style="left:calc(386*var(--u));width:calc(214.1*var(--u))">입사일</div>
+  <div class="hl" style="left:calc(611.6*var(--u));width:calc(214.1*var(--u))">부 서</div>
+  <div class="hl" style="left:calc(837.4*var(--u));width:calc(257.5*var(--u))">아이디</div>
+  <div class="hl" style="left:calc(1105*var(--u));width:calc(257.5*var(--u))">비밀번호</div>
+  <sc-for list="{{staffRows}}" as="r" hint-placeholder-count="4">
+    <div class="srow" style="top:calc({{r.top}}*var(--u))">
+      <button class="xd" onClick="{{r.remove}}" aria-label="{{r.name}} 계정 삭제">x</button>
+      <div class="ab" style="left:calc(65.5*var(--u));width:calc(214.1*var(--u));top:0"><input class="cell" value="{{r.name}}" onChange="{{r.setName}}" aria-label="이름"></div>
+      <div class="ab" style="left:calc(293.4*var(--u));width:calc(214.1*var(--u));top:0"><input class="cell" value="{{r.hire}}" onChange="{{r.setHire}}" aria-label="입사일"></div>
+      <div class="ab" style="left:calc(519*var(--u));width:calc(214.1*var(--u));top:0"><input class="cell" value="{{r.dept}}" onChange="{{r.setDept}}" aria-label="부서"></div>
+      <div class="ab" style="left:calc(744.8*var(--u));width:calc(257.5*var(--u));top:0"><input class="cell" value="{{r.loginId}}" onChange="{{r.setLoginId}}" aria-label="아이디"></div>
+      <div class="ab" style="left:calc(1012.4*var(--u));width:calc(257.5*var(--u));top:0"><input class="cell" value="{{r.pw}}" placeholder="{{r.pwHint}}" onChange="{{r.setPw}}" aria-label="비밀번호"></div>
+    </div>
+  </sc-for>
+
+  <div class="pnl" style="top:calc(289.9*var(--u));height:calc(632.1*var(--u))">
+    <h3 style="top:calc(23.6*var(--u))">신규 계정 생성</h3>
+    <label class="sr" for="n1">이름</label><input id="n1" class="pin" style="top:calc(82.9*var(--u))" placeholder="이름을 입력해 주세요" value="{{nName}}" onChange="{{setN.name}}">
+    <label class="sr" for="n2">입사일</label><input id="n2" class="pin" style="top:calc(167*var(--u))" placeholder="입사일을 입력해 주세요" value="{{nHire}}" onChange="{{setN.hire}}">
+    <label class="sr" for="n3">부서</label><input id="n3" class="pin" style="top:calc(251.1*var(--u))" placeholder="부서를 입력해 주세요" value="{{nDept}}" onChange="{{setN.dept}}">
+    <label class="sr" for="n4">아이디</label><input id="n4" class="pin" style="top:calc(335.1*var(--u))" placeholder="아이디를 입력해 주세요" value="{{nId}}" onChange="{{setN.id}}">
+    <label class="sr" for="n5">비밀번호</label><input id="n5" class="pin" style="top:calc(419.2*var(--u))" placeholder="비밀번호를 입력해 주세요" value="{{nPw}}" onChange="{{setN.pw}}">
+    <button class="pbtn" style="top:calc(523.1*var(--u))" onClick="{{createAccount}}">계정 생성하기</button>
+  </div>
+  <div class="pnl" style="top:calc(964.8*var(--u));height:calc(376*var(--u))">
+    <h3 style="top:calc(23.6*var(--u))">관리자 계정</h3>
+    <label class="sr" for="m1">관리자 아이디</label><input id="m1" class="pin" style="top:calc(89.2*var(--u))" placeholder="아이디를 입력해 주세요" value="{{aId}}" onChange="{{setA.id}}">
+    <label class="sr" for="m2">관리자 비밀번호</label><input id="m2" class="pin" style="top:calc(172.6*var(--u))" placeholder="비밀번호를 입력해 주세요" value="{{aPw}}" onChange="{{setA.pw}}">
+    <button class="pbtn" style="top:calc(270.2*var(--u))" onClick="{{changeAdmin}}">아이디 비밀번호 변경</button>
+  </div>
+  <div class="foot" style="top:calc({{footTop}}*var(--u))">제작 : 국호준     버전: ver.1.0</div>
+</div>
+</sc-if>
+
+<!-- ---------- 법률 근거 ---------- -->
+<sc-if value="{{tLaw}}" hint-placeholder-val="{{ false }}">
+<div class="ab" style="left:0;top:0;width:100%">
+  <div class="dnbar"><b>명세서 PDF 1페이지 하단 문구</b><label class="sr" for="dnote">명세서 PDF 1페이지 공제 내역 아래 문구</label><input id="dnote" value="{{dnote}}" placeholder="기타 공제 아래에 표시할 문구를 입력하세요" onChange="{{setDnote}}"></div>
+  <button class="addcard" onClick="{{addLaw}}">카드 추가 생성하기</button>
+  <sc-for list="{{lawRows}}" as="c" hint-placeholder-count="4">
+    <div class="lcard" style="left:calc({{c.left}}*var(--u));top:calc({{c.top}}*var(--u))">
+      <label class="sr" for="{{c.tid}}">카드 제목</label>
+      <input id="{{c.tid}}" class="ti" value="{{c.title}}" onChange="{{c.setTitle}}">
+      <button class="xd" onClick="{{c.remove}}" aria-label="{{c.title}} 카드 삭제">x</button>
+      <label class="sr" for="{{c.bid}}">카드 내용</label>
+      <textarea id="{{c.bid}}" class="bd" value="{{c.body}}" onChange="{{c.setBody}}"></textarea>
+    </div>
+  </sc-for>
+</div>
+</sc-if>
+
+<!-- ---------- 업로드 ---------- -->
+<sc-if value="{{tUp}}" hint-placeholder-val="{{ false }}">
+<div class="ab" style="left:0;top:0;width:100%">
+  <div class="ucard" style="left:calc(75*var(--u))">
+    <button class="nv" style="left:calc(64.1*var(--u));top:calc(41*var(--u))" onClick="{{upPrev}}" aria-label="이전 달"><svg viewBox="0 0 11 13" aria-hidden="true"><path d="M7.6 2.2 3.4 6.5l4.2 4.3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    <div class="mt">{{upYmText}}</div>
+    <button class="nv" style="left:calc(331.6*var(--u));top:calc(41*var(--u))" onClick="{{upNext}}" aria-label="다음 달"><svg viewBox="0 0 11 13" aria-hidden="true"><path d="M3.4 2.2l4.2 4.3-4.2 4.3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    <div class="ut">엑셀 파일 업로드</div>
+    <label class="fb {{upHas}}">{{upName}}<input type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange="{{pickUp}}" aria-label="엑셀 파일 선택"></label>
+    <button class="ub" onClick="{{doUpload}}">업로드 하기</button>
+  </div>
+  <div class="ucard" style="left:calc(1073.8*var(--u))">
+    <button class="nv" style="left:calc(64.1*var(--u));top:calc(41*var(--u))" onClick="{{edPrev}}" aria-label="이전 달"><svg viewBox="0 0 11 13" aria-hidden="true"><path d="M7.6 2.2 3.4 6.5l4.2 4.3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    <div class="mt">{{edYmText}}</div>
+    <button class="nv" style="left:calc(331.6*var(--u));top:calc(41*var(--u))" onClick="{{edNext}}" aria-label="다음 달"><svg viewBox="0 0 11 13" aria-hidden="true"><path d="M3.4 2.2l4.2 4.3-4.2 4.3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    <div class="ut">엑셀 파일 수정업로드</div>
+    <label class="fb {{edHas}}">{{edName}}<input type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange="{{pickEd}}" aria-label="수정할 엑셀 파일 선택"></label>
+    <button class="ub" onClick="{{doEdit}}">수정 업로드</button>
+  </div>
+  <div class="utab">
+    <div class="ug uh"><span>해당연월</span><span>파일명</span><span>업로드 날짜</span><span>수정 업로드</span><span>다운 로드</span><span>변경 로그</span></div>
+    <sc-for list="{{upRows}}" as="r" hint-placeholder-count="2">
+      <div class="ug ur"><span>{{r.ym}}</span><span>{{r.file}}</span><span>{{r.up}}</span><span>{{r.mod}}</span><span><button class="dl" onClick="{{r.dl}}" aria-label="{{r.ym}} 엑셀 다운로드">EXCEL 다운</button></span><span class="lg">{{r.log}}</span></div>
+    </sc-for>
+    <div style="height:calc(560*var(--u))"></div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ---------- 메세지 ---------- -->
+<sc-if value="{{tMsg}}" hint-placeholder-val="{{ false }}">
+<div class="ab" style="left:0;top:0;width:100%">
+  <div class="mcard" style="height:calc({{msgH}}*var(--u))">
+    <div class="mnav">
+      <button class="nv" style="left:calc(839*var(--u))" onClick="{{msgPrev}}" aria-label="이전 달"><svg viewBox="0 0 11 13" aria-hidden="true"><path d="M7.6 2.2 3.4 6.5l4.2 4.3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+      <div class="mt">{{msgYmText}}</div>
+      <button class="nv" style="left:calc(1078*var(--u))" onClick="{{msgNext}}" aria-label="다음 달"><svg viewBox="0 0 11 13" aria-hidden="true"><path d="M3.4 2.2l4.2 4.3-4.2 4.3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    </div>
+    <sc-for list="{{msgRows}}" as="r" hint-placeholder-count="4">
+      <div class="mrow" style="top:calc({{r.top}}*var(--u))"><label for="{{r.id}}">{{r.name}}</label><input id="{{r.id}}" value="{{r.text}}" placeholder="{{r.ph}}" onChange="{{r.set}}"></div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+</sc-if>
+
+<!-- ===================== 팝업 (저장중 / 저장완료 / 실패 / 안내) ===================== -->
+<sc-if value="{{hasPop}}" hint-placeholder-val="{{ false }}">
+<div class="pov" role="alertdialog" aria-live="assertive" aria-label="{{pop.title}}">
+  <div class="pop">
+    <sc-if value="{{pop.isSaving}}" hint-placeholder-val="{{ false }}"><div class="spin" role="img" aria-label="진행 중"></div></sc-if>
+    <sc-if value="{{pop.isOk}}" hint-placeholder-val="{{ false }}"><div class="pic ok"><svg viewBox="0 0 46 46" aria-hidden="true"><path d="M10 24l9 9 17-19" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></sc-if>
+    <sc-if value="{{pop.isNo}}" hint-placeholder-val="{{ false }}"><div class="pic no"><svg viewBox="0 0 46 46" aria-hidden="true"><path d="M23 9v18M23 35v2" fill="none" stroke="#001372" stroke-width="5" stroke-linecap="round"></path></svg></div></sc-if>
+    <sc-if value="{{pop.isInfo}}" hint-placeholder-val="{{ false }}"><div class="pic in"><svg viewBox="0 0 46 46" aria-hidden="true"><path d="M23 20v16M23 10v2" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"></path></svg></div></sc-if>
+    <h4>{{pop.title}}</h4>
+    <p>{{pop.text}}</p>
+    <sc-if value="{{pop.hasBtns}}" hint-placeholder-val="{{ false }}">
+      <div class="bt">
+        <sc-if value="{{pop.retry}}" hint-placeholder-val="{{ false }}"><button class="p" onClick="{{save}}">다시 저장하기</button></sc-if>
+        <button class="{{pop.closeCls}}" onClick="{{closePop}}">{{pop.closeText}}</button>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{showAcctXls}}" hint-placeholder-val="{{ false }}"><button class="xbtn" style="left:calc(1908.4*var(--u));position:absolute;top:calc(175.4*var(--u))" onClick="{{downAcct}}">엑셀 다운로드</button><label class="xbtn" style="left:calc(1721.6*var(--u));position:absolute;top:calc(174*var(--u))"><span>엑셀 업로드</span><input type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange="{{pickAcct}}" aria-label="사원 계정 엑셀 업로드"></label></sc-if></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"simulateFail":{"editor":"boolean","default":false,"section":"테스트"},"$preview":{"width":1500,"height":1313}}'>
+class Component extends DCLogic {
+  state = { store: null, draft: null, savedJson: '', screen: 'login', tab: 'staff', lgId: '', lgPw: '', lgErr: '', pop: null,
+    nName: '', nHire: '', nDept: '', nId: '', nPw: '', aId: '', aPw: '',
+    upYm: '2026-12', edYm: '2026-11', msgYm: '2026-11', upFileName: '', edFileName: '' };
+  upFile = null; edFile = null; popTimer = null;
+
+  /* 관리자 페이지 진입: 로그인 유지 확인 → 서버에서 최신 데이터를 새로 조회 → 화면 그리기 */
+  componentDidMount() {
+    const I = window.IRUDA;
+    I.restore().catch(() => null).then(r => {
+      if (!(r && r.role === 'admin')) return;
+      return I.refresh().then(store => this.enter(store)).catch(() => this.setState({ lgErr: '서버와 통신이 원활하지 않아요. 잠시 후 다시 시도해 주세요.' }));
+    });
+  }
+  enter(store) {
+    const I = window.IRUDA, draft = I.clone(store);
+    if (I.mode === 'firebase' && !draft.law.length) draft.law = I.defaultLaw();   // 최초 1회: 기본 법률 카드를 초안으로 채움 (저장하기 시 서버에 기록)
+    const ks = Object.keys(store.months).sort(), cur = I.stamp().long.slice(0, 7).replace('.', '-'), latest = ks.length ? ks[ks.length - 1] : cur;
+    this.setState({ store, draft, savedJson: JSON.stringify(store), screen: 'main', lgPw: '', lgErr: '', upYm: ks.length ? I.shiftYm(latest, 1) : cur, edYm: latest, msgYm: latest });
+  }
+
+  /* ---------- 로그인 ---------- */
+  onLgId = (e) => this.setState({ lgId: e.target.value, lgErr: '' });
+  onLgPw = (e) => this.setState({ lgPw: e.target.value, lgErr: '' });
+  onLgKey = (e) => { if (e.key === 'Enter') this.doLogin(); };
+  doLogin = () => {
+    const I = window.IRUDA, id = (this.state.lgId || '').trim(), pw = this.state.lgPw || '';
+    if (!id || !pw) { this.setState({ lgErr: '관리자 아이디와 비밀번호를 입력해 주세요.' }); return; }
+    this.setState({ lgErr: '확인 중이에요…' });
+    I.login('admin', id, pw).then(res => {
+      if (!res.ok) { this.setState({ lgErr: res.error === 'NETWORK' ? '서버와 통신이 원활하지 않아요. 잠시 후 다시 시도해 주세요.' : res.error === 'TOO_MANY' ? '로그인 시도가 너무 많아요. 잠시 후 다시 시도해 주세요.' : '관리자 아이디 또는 비밀번호를 확인해 주세요.' }); return; }
+      return I.refresh().then(store => this.enter(store)).catch(() => this.setState({ lgErr: '서버와 통신이 원활하지 않아요. 잠시 후 다시 시도해 주세요.' }));
+    });
+  };
+  doLogout = () => { window.IRUDA.logout(); this.setState({ screen: 'login', store: null, draft: null, savedJson: '', lgId: '', lgPw: '', lgErr: '' }); };
+
+  goStaff = () => this.setState({ tab: 'staff' });
+  goLaw = () => this.setState({ tab: 'law' });
+  goUp = () => this.setState({ tab: 'up' });
+  goMsg = () => this.setState({ tab: 'msg' });
+
+  /* ---------- 초안(draft) 수정 : 저장하기를 눌러야 서버에 반영 ---------- */
+  upd(fn) { const d = JSON.parse(JSON.stringify(this.state.draft)); fn(d); this.setState({ draft: d }); }
+  showPop(p) { clearTimeout(this.popTimer); this.setState({ pop: p }); }
+  closePop = () => { clearTimeout(this.popTimer); this.setState({ pop: null }); };
+  info(title, text) { this.showPop({ kind: 'info', title, text }); }
+
+  setN = (k) => (e) => this.setState({ [k]: e.target.value });
+  createAccount = () => {
+    const s = this.state, I = window.IRUDA;
+    const name = s.nName.trim(), dept = s.nDept.trim(), pw = s.nPw;
+    let lid = s.nId.trim();
+    let hire = s.nHire.trim();
+    if (!name || !hire || !dept || !lid || !pw) { this.info('입력 내용을 확인해 주세요', '이름, 입사일, 부서, 아이디, 비밀번호를 모두 입력해 주세요.'); return; }
+    const m = /^(\d{4})[.\-\/](\d{1,2})[.\-\/](\d{1,2})$/.exec(hire);
+    if (!m) { this.info('입사일 형식을 확인해 주세요', '입사일은 2026.10.10 처럼 입력해 주세요.'); return; }
+    if (!/^[A-Za-z0-9._-]{2,40}$/.test(lid)) { this.info('아이디 형식을 확인해 주세요', '아이디는 영문, 숫자, . _ - 만 사용할 수 있어요. (2자 이상)'); return; }
+    if (pw.length < 6) { this.info('비밀번호를 확인해 주세요', '비밀번호는 6자 이상이어야 해요.'); return; }
+    hire = m[1] + '.' + ('0' + m[2]).slice(-2) + '.' + ('0' + m[3]).slice(-2);
+    if (s.draft.accounts.some(a => a.name === name)) { this.info('이미 있는 이름이에요', '엑셀의 이름과 계정 이름이 정확히 일치해야 급여가 연결돼요.\n같은 이름의 계정은 만들 수 없습니다.'); return; }
+    lid = lid.toLowerCase();
+    if (s.draft.accounts.some(a => a.loginId.toLowerCase() === lid) || lid === String(s.draft.admin.id).toLowerCase()) { this.info('이미 사용 중인 아이디예요', '다른 아이디를 입력해 주세요.'); return; }
+    this.upd(d => d.accounts.push({ id: 'a' + Date.now(), name, hire, dept, loginId: lid, pw }));
+    this.setState({ nName: '', nHire: '', nDept: '', nId: '', nPw: '' });
+  };
+  setA = (k) => (e) => this.setState({ [k]: e.target.value });
+  changeAdmin = () => {
+    const s = this.state, id = s.aId.trim(), pw = s.aPw;
+    if (!id || !pw) { this.info('입력 내용을 확인해 주세요', '관리자 아이디와 비밀번호를 모두 입력해 주세요.'); return; }
+    if (pw.length < 6) { this.info('비밀번호를 확인해 주세요', '비밀번호는 6자 이상이어야 해요.'); return; }
+    if (s.draft.accounts.some(a => a.loginId.toLowerCase() === id.toLowerCase())) { this.info('이미 사용 중인 아이디예요', '직원 계정과 같은 아이디는 사용할 수 없습니다.'); return; }
+    this.upd(d => { d.admin = { id, pw }; });
+    this.setState({ aId: '', aPw: '' });
+    this.info('관리자 계정이 변경 대기 중이에요', '저장하기를 눌러야 새 아이디와 비밀번호가 적용됩니다.');
+  };
+  /* 사원 계정 엑셀: 업로드(적용) / 다운로드 */
+  pickAcct = (e) => {
+    const I = window.IRUDA, input = e.target, f = input.files && input.files[0];
+    if (!f) return;
+    f.arrayBuffer().then(buf => I.parseXlsx(buf)).then(sheets => {
+      const d = JSON.parse(JSON.stringify(this.state.draft));
+      const res = I.importAccounts(d, sheets);
+      if (!res.ok) { this.showPop({ kind: 'noop', title: '반영하지 못했어요', text: res.error + (res.skipped && res.skipped.length ? '\n\n제외된 행: ' + res.skipped.join(', ') : ''), closeText: '확인' }); return; }
+      this.setState({ draft: d });
+      const sk = res.skipped.length ? '\n\n제외된 행 ' + res.skipped.length + '건: ' + res.skipped.join(', ') : '';
+      this.showPop({ kind: 'result', title: '사원 계정을 불러왔어요', text: '새로 추가 ' + res.added + '명 · 정보 수정 ' + res.updated + '명' + sk + '\n\n저장하기를 눌러야 서버에 최종 저장됩니다.', closeText: '확인' });
+    }).catch(() => this.showPop({ kind: 'noop', title: '엑셀 파일을 읽을 수 없어요', text: '.xlsx 형식의 파일인지 확인한 뒤 다시 업로드해 주세요.\n기존 데이터는 변경되지 않았습니다.', closeText: '확인' }))
+      .then(() => { try { input.value = ''; } catch (x) { } });
+  };
+  downAcct = () => {
+    const I = window.IRUDA, d = this.state.draft, t = I.stamp().long.replace(/\./g, '');
+    I.downloadBlob('이루다Bank_사원계정_' + t + '.xlsx', I.buildXlsx(I.accountsToRows(d.accounts), '사원계정')).then(r => { if (r === false) this.info('다운로드할 수 없어요', '이 환경에서는 파일 다운로드가 막혀 있어요.'); });
+  };
+  addLaw = () => this.upd(d => d.law.push({ id: 'l' + Date.now(), title: '새 카드', body: '' }));
+
+  /* ---------- 월 이동 ---------- */
+  upPrev = () => this.setState({ upYm: window.IRUDA.shiftYm(this.state.upYm, -1) });
+  upNext = () => this.setState({ upYm: window.IRUDA.shiftYm(this.state.upYm, 1) });
+  edPrev = () => this.setState({ edYm: window.IRUDA.shiftYm(this.state.edYm, -1) });
+  edNext = () => this.setState({ edYm: window.IRUDA.shiftYm(this.state.edYm, 1) });
+  msgPrev = () => this.setState({ msgYm: window.IRUDA.shiftYm(this.state.msgYm, -1) });
+  msgNext = () => this.setState({ msgYm: window.IRUDA.shiftYm(this.state.msgYm, 1) });
+
+  /* ---------- 엑셀 업로드 / 수정 업로드 ---------- */
+  pickFile(which, e) {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    f.arrayBuffer().then(buf => {
+      if (which === 'up') { this.upFile = { name: f.name, buf }; this.setState({ upFileName: f.name }); }
+      else { this.edFile = { name: f.name, buf }; this.setState({ edFileName: f.name }); }
+    }).catch(() => this.info('파일을 읽을 수 없어요', '다른 파일로 다시 시도해 주세요.'));
+  }
+  pickUp = (e) => this.pickFile('up', e);
+  pickEd = (e) => this.pickFile('ed', e);
+  runUpload(mode) {
+    const I = window.IRUDA, s = this.state;
+    const file = mode === 'new' ? this.upFile : this.edFile;
+    const ym = mode === 'new' ? s.upYm : s.edYm;
+    if (!file) { this.info('엑셀 파일을 선택해 주세요', '업로드할 .xlsx 파일을 먼저 선택해 주세요.'); return; }
+    this.showPop({ kind: 'saving', title: '엑셀 파일을 읽는 중이에요', text: '잠시만 기다려 주세요.' });
+    I.parseXlsx(file.buf).then(sheets => {
+      const d = JSON.parse(JSON.stringify(this.state.draft));
+      const res = I.applyUpload(d, ym, sheets, { name: file.name, b64: I.bufToB64(file.buf) }, mode);
+      if (!res.ok) {
+        const extra = res.unmatched && res.unmatched.length ? '\n\n(계정과 일치하지 않은 이름: ' + res.unmatched.join(', ') + ')' : '';
+        this.showPop({ kind: 'noop', title: '반영하지 못했어요', text: res.error + extra, closeText: '확인' });
+        return;
+      }
+      if (mode === 'new') { this.upFile = null; this.setState({ draft: d, upFileName: '' }); } else { this.edFile = null; this.setState({ draft: d, edFileName: '' }); }
+      const un = res.unmatched.length ? '\n\n계정 이름과 일치하지 않아 제외된 이름 ' + res.unmatched.length + '명: ' + res.unmatched.join(', ') : '';
+      this.showPop({ kind: 'result', title: I.ymLabel(ym) + (mode === 'new' ? ' 업로드 완료' : ' 수정 업로드 완료'), text: res.matched.length + '명의 데이터가 반영되었어요 (' + res.matched.join(', ') + ').' + un + '\n\n저장하기를 눌러야 서버에 최종 저장됩니다.', closeText: '확인' });
+    }).catch(() => {
+      this.showPop({ kind: 'noop', title: '엑셀 파일을 읽을 수 없어요', text: '.xlsx 형식의 파일인지 확인한 뒤 다시 업로드해 주세요.\n기존 데이터는 변경되지 않았습니다.', closeText: '확인' });
+    });
+  }
+  doUpload = () => this.runUpload('new');
+  doEdit = () => this.runUpload('edit');
+
+  /* ---------- 저장하기 (서버 저장 중 → 완료 / 실패) ---------- */
+  save = () => {
+    const I = window.IRUDA, s = this.state;
+    if (s.pop && s.pop.kind === 'saving' && s.pop.title.indexOf('저장') === 0) return;
+    this.showPop({ kind: 'saving', title: '저장 중이에요', text: '서버에 저장하고 있어요.\n잠시만 기다려 주세요.' });
+    const payload = JSON.parse(JSON.stringify(s.draft));
+    I.serverSave(payload, { simulateFail: !!this.props.simulateFail }).then((saved) => {
+      const st = (saved && saved.accounts) ? saved : payload;   // 서버가 발급한 계정 ID 등을 반영한 최종본
+      this.setState({ store: st, draft: I.clone(st), savedJson: JSON.stringify(st) });
+      this.showPop({ kind: 'saved', title: '저장 완료', text: '모든 변경 사항이 저장되었어요.' });
+      this.popTimer = setTimeout(() => { if (this.state.pop && this.state.pop.kind === 'saved') this.setState({ pop: null }); }, 1500);
+    }).catch((err) => {
+      const code = err && err.message, keep = '\n기존에 저장된 데이터는 그대로 유지되었습니다.';
+      const why = { EMPTY_PAYLOAD: ['저장하지 못했어요', '전송할 데이터가 비어 있어 저장을 중단했어요.'], DUP_LOGIN: ['저장하지 못했어요', '아이디가 겹치는 계정이 있어요. (대소문자 구분 없음)\n사원 관리에서 아이디를 확인해 주세요.'], WEAK_PW: ['저장하지 못했어요', '비밀번호는 6자 이상이어야 해요.'], NO_PW: ['저장하지 못했어요', '새 계정에는 비밀번호가 필요해요.'], NOT_WEBP: ['저장하지 못했어요', '이미지는 WebP 로 변환된 파일만 저장할 수 있어요.'], FORBIDDEN: ['권한이 없어요', '관리자 권한을 확인해 주세요.'], SERVER: ['서버 설정을 확인해 주세요', '계정을 처리하는 서버 함수에서 오류가 났어요.\nVercel 환경변수 FIREBASE_SERVICE_ACCOUNT(서비스 계정 JSON 전체)가 들어 있는지 확인하고, 추가했다면 다시 배포(Redeploy)해 주세요.'], API_404: ['서버 함수를 찾을 수 없어요', 'api/users.js 와 package.json 이 저장소 루트에 올라가 있는지 확인한 뒤 다시 배포해 주세요.'], API_500: ['서버 설정을 확인해 주세요', '서버 함수에서 오류가 났어요. Vercel 환경변수 FIREBASE_SERVICE_ACCOUNT 를 확인해 주세요.'], BAD_TOKEN: ['다시 로그인해 주세요', '로그인 정보가 만료되었어요.'], NOT_SIGNED_IN: ['다시 로그인해 주세요', '로그인 정보가 없어요.'] }[code];
+      if (why) this.showPop({ kind: 'fail', title: why[0], text: why[1] + keep + '\n내용을 고친 뒤 다시 저장해 주세요.' });
+      else this.showPop({ kind: 'fail', title: '서버와 통신이 원활하지 않아요', text: '네트워크 연결이 불안정해 저장하지 못했어요.' + (err && err.detail ? '\n(상세: ' + err.detail + ')' : '') + keep + '\n연결 상태를 확인한 뒤 다시 저장(재업로드)해 주세요.' });
+    });
+  };
+
+  renderVals() {
+    const I = window.IRUDA, s = this.state;
+    const d = s.draft || { admin: { id: '', pw: '' }, accounts: [], months: {}, law: [], messages: {} };
+    const U = (n) => n;
+    const dirty = s.screen === 'main' && !!s.draft && JSON.stringify(s.draft) !== s.savedJson;
+
+    const staffRows = d.accounts.map((a, i) => {
+      const set = (k) => (e) => this.upd(x => { x.accounts[i][k] = e.target.value; });
+      return { top: 289.9 + i * 89.2, name: a.name, hire: a.hire, dept: a.dept, loginId: a.loginId, pw: a.pw, pwHint: (I.mode === 'firebase' && a.uid && !a.pw) ? '비밀번호를 입력해 주세요' : '',
+        remove: () => this.upd(x => { x.accounts.splice(i, 1); }), setName: set('name'), setHire: set('hire'), setDept: set('dept'), setLoginId: set('loginId'), setPw: set('pw') };
+    });
+    const staffBottom = 289.9 + d.accounts.length * 89.2;
+    const lawRows = d.law.map((c, i) => ({
+      left: i % 2 === 0 ? 79 : 1065, top: 375 + Math.floor(i / 2) * 275.2, tid: 'lt' + i, bid: 'lb' + i, title: c.title, body: c.body,
+      setTitle: (e) => this.upd(x => { x.law[i].title = e.target.value; }),
+      setBody: (e) => this.upd(x => { x.law[i].body = e.target.value; }),
+      remove: () => this.upd(x => { x.law.splice(i, 1); })
+    }));
+    const dnote = d.deductNote || '', setDnote = (e) => this.upd(x => { x.deductNote = e.target.value; });
+    const lawBottom = 375 + Math.ceil(d.law.length / 2) * 275.2;
+
+    const months = Object.keys(d.months).sort().reverse();
+    const upRows = months.map(k => {
+      const m = d.months[k];
+      return { ym: I.ymLabel(k), file: (m.file && m.file.name) || '-', up: m.uploadedAt || '-', mod: m.modifiedAt || '-', log: (m.log || []).join(', '),
+        dl: () => {
+          const fail = () => this.info('다운로드할 수 없어요', '저장된 원본 파일이 없거나 이 환경에서 다운로드가 막혀 있어요.');
+          if (!(m.file && m.file.name)) { fail(); return; }
+          I.getFile(k, m).then(b64 => (b64 ? I.download(m.file.name, b64) : false)).then(r => { if (r === false) fail(); }).catch(fail);
+        } };
+    });
+
+    const msgMap = (d.messages || {})[s.msgYm] || {};
+    const msgRows = d.accounts.map((a, i) => ({
+      top: 98.5 + i * 72, id: 'ms' + i, name: a.name, text: msgMap[a.name] || '', ph: i === 0 ? '개인 전달 메세지가 있다면 입력 해주세요' : '',
+      set: (e) => this.upd(x => { x.messages = x.messages || {}; x.messages[s.msgYm] = x.messages[s.msgYm] || {}; x.messages[s.msgYm][a.name] = e.target.value; })
+    }));
+    const msgH = Math.max(1488, 98.5 + d.accounts.length * 72 + 40);
+
+    let appH = 1856.8;
+    if (s.tab === 'staff') appH = Math.max(appH, staffBottom + 120, 1360);
+    if (s.tab === 'law') appH = Math.max(appH, lawBottom + 120);
+    if (s.tab === 'msg') appH = Math.max(appH, 261.9 + msgH + 100);
+    if (s.screen === 'login') appH = 1856.8;
+
+    const p = s.pop;
+    const pop = p ? {
+      title: p.title, text: p.text || '',
+      isSaving: p.kind === 'saving', isOk: p.kind === 'saved', isNo: p.kind === 'fail' || p.kind === 'noop', isInfo: p.kind === 'info' || p.kind === 'result',
+      hasBtns: p.kind !== 'saving' && p.kind !== 'saved', retry: p.kind === 'fail', closeText: p.closeText || (p.kind === 'fail' ? '닫기' : '확인'), closeCls: p.kind === 'fail' ? 's' : 'p'
+    } : { title: '', text: '' };
+
+    const tabs = ['staff', 'law', 'up', 'msg'];
+    const tabCls = {}, tabSel = {};
+    tabs.forEach(t => { tabCls[t] = s.tab === t ? 'on' : ''; tabSel[t] = s.tab === t ? 'true' : 'false'; });
+
+    return {
+      isLogin: s.screen === 'login', isMain: s.screen === 'main', showAcctXls: s.screen === 'main' && s.tab === 'staff', appH: appH,
+      lgId: s.lgId, lgPw: s.lgPw, lgErr: s.lgErr, onLgId: this.onLgId, onLgPw: this.onLgPw, onLgKey: this.onLgKey, doLogin: this.doLogin, doLogout: this.doLogout,
+      dirty: dirty, clean: !dirty, save: this.save,
+      tabCls, tabSel, goStaff: this.goStaff, goLaw: this.goLaw, goUp: this.goUp, goMsg: this.goMsg,
+      tStaff: s.tab === 'staff', tLaw: s.tab === 'law', tUp: s.tab === 'up', tMsg: s.tab === 'msg',
+      staffRows, footTop: Math.max(1790.5 - 24.8, staffBottom + 60) - 0,
+      nName: s.nName, nHire: s.nHire, nDept: s.nDept, nId: s.nId, nPw: s.nPw,
+      setN: { name: this.setN('nName'), hire: this.setN('nHire'), dept: this.setN('nDept'), id: this.setN('nId'), pw: this.setN('nPw') },
+      aId: s.aId, aPw: s.aPw, setA: { id: this.setA('aId'), pw: this.setA('aPw') },
+      pickAcct: this.pickAcct, downAcct: this.downAcct, createAccount: this.createAccount, changeAdmin: this.changeAdmin,
+      lawRows, addLaw: this.addLaw, dnote, setDnote,
+      upYmText: I.ymLabel(s.upYm), edYmText: I.ymLabel(s.edYm), upPrev: this.upPrev, upNext: this.upNext, edPrev: this.edPrev, edNext: this.edNext,
+      upName: s.upFileName || '엑셀 파일을 업로드 해주세요', upHas: s.upFileName ? 'has' : '', edName: s.edFileName || '엑셀 파일을 업로드 해주세요', edHas: s.edFileName ? 'has' : '',
+      pickUp: this.pickUp, pickEd: this.pickEd, doUpload: this.doUpload, doEdit: this.doEdit, upRows,
+      msgYmText: I.ymLabel(s.msgYm), msgPrev: this.msgPrev, msgNext: this.msgNext, msgRows, msgH,
+      hasPop: !!p, pop, closePop: this.closePop
+    };
+  }
+}
+</script>
+</body>
+</html>
