@@ -324,6 +324,11 @@
   }
 
 
+  /* 한국시간(KST) 기준 현재 월의 전월 — 급여는 익월에 지급하므로 기본 표시 월로 사용 */
+  function kstPrevYm() {
+    var d = new Date(Date.now() + 9 * 3600 * 1000), mo = d.getUTCMonth() + 1;
+    return shiftYm(d.getUTCFullYear() + '-' + (mo < 10 ? '0' : '') + mo, -1);
+  }
   /* ---------- 급여명세서 PDF (1·2페이지를 한 파일로) ---------- */
   var _libs = {};
   function loadScript(src) {
@@ -440,6 +445,6 @@
   }
 
   var api = { mode: 'local', attachBackend: attachBackend, refresh: refresh, restore: restore, login: login, logout: logout, getFile: getFile, defaultLaw: defaultLaw, imageToWebp: imageToWebp,
-    buildXlsx: buildXlsx, makePayslipPdf: makePayslipPdf, downloadBlob: downloadBlob, accountsToRows: accountsToRows, importAccounts: importAccounts, clone: clone, seed: seed, load: load, serverSave: serverSave, getSession: getSession, setSession: setSession, fmt: fmt, fmtH: fmtH, ymLabel: ymLabel, monthOnly: monthOnly, shiftYm: shiftYm, hireLabel: hireLabel, stamp: stamp, view: view, parseXlsx: parseXlsx, applyUpload: applyUpload, bufToB64: bufToB64, download: download };
+    buildXlsx: buildXlsx, makePayslipPdf: makePayslipPdf, kstPrevYm: kstPrevYm, downloadBlob: downloadBlob, accountsToRows: accountsToRows, importAccounts: importAccounts, clone: clone, seed: seed, load: load, serverSave: serverSave, getSession: getSession, setSession: setSession, fmt: fmt, fmtH: fmtH, ymLabel: ymLabel, monthOnly: monthOnly, shiftYm: shiftYm, hireLabel: hireLabel, stamp: stamp, view: view, parseXlsx: parseXlsx, applyUpload: applyUpload, bufToB64: bufToB64, download: download };
   window.IRUDA = api;
 })();

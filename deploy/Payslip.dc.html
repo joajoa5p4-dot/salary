@@ -114,11 +114,10 @@ class Component extends DCLogic {
         if (!user) user = store.accounts[0] || null;
         let ym = null;
         if (user) {
-          const ks = Object.keys(store.months).sort().filter(k => { const m = store.months[k]; return (m.pay && m.pay[user.name]) || (m.perf && m.perf[user.name]); });
-          ym = ks.length ? ks[ks.length - 1] : null;
+          ym = I.kstPrevYm();
         }
         const q = (new URLSearchParams(location.search).get('ym') || '').trim();
-        if (user && /^\d{4}-\d{2}$/.test(q) && store.months[q]) ym = q;
+        if (user && /^\d{4}-\d{2}$/.test(q)) ym = q;
         this.setState({ store, user, ym });
         setTimeout(() => document.body.setAttribute('data-ready', '1'), 120);
       });

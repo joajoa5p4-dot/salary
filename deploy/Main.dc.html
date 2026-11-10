@@ -16,7 +16,7 @@
 @font-face{font-family:'Pretendard';src:url(./assets/575b91c4c7e4e63ec980292da8280a30.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
 body{margin:0}
 .cq{container-type:inline-size;position:relative;overflow:hidden;background:#fff}
-.app{--u:calc(100cqw/600);position:absolute;inset:0;font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#232323;-webkit-font-smoothing:antialiased;letter-spacing:0}
+.app{--u:calc(min(100cqw,430px)/600);--g:calc((100cqw - 600*var(--u))/2);position:absolute;inset:0;font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#232323;-webkit-font-smoothing:antialiased;letter-spacing:0}
 .app *{box-sizing:border-box}
 .app :where(button){font-family:inherit;border:0;background:none;padding:0;margin:0;cursor:pointer;color:inherit;text-align:inherit}
 .app .pdf{background:#001372;width:calc(100% - 53.4*var(--u));margin:0 calc(26.7*var(--u));text-align:center}
@@ -30,20 +30,20 @@ body{margin:0}
 .tt{white-space:nowrap}
 
 /* ---------- 로그인 ---------- */
-.lg-in{position:absolute;left:calc(63.5*var(--u));width:calc(480.8*var(--u));height:calc(72.8*var(--u));border:calc(1.94*var(--u)) solid #6299e8;border-radius:calc(36.4*var(--u));background:#fff;padding:0 calc(46*var(--u));font-size:calc(23.2*var(--u));font-weight:500;color:#232323;outline:none}
+.lg-in{position:absolute;left:calc(63.5*var(--u) + var(--g));width:calc(480.8*var(--u));height:calc(72.8*var(--u));border:calc(1.94*var(--u)) solid #6299e8;border-radius:calc(36.4*var(--u));background:#fff;padding:0 calc(46*var(--u));font-size:calc(23.2*var(--u));font-weight:500;color:#232323;outline:none}
 .lg-in::placeholder{color:#a3a3a3;opacity:1}
 .lg-in:focus{border-color:#0062ff}
-.lg-btn{position:absolute;left:calc(63.5*var(--u));top:calc(673.8*var(--u));width:calc(480.8*var(--u));height:calc(72.8*var(--u));border-radius:calc(36.4*var(--u));background:#0062ff!important;color:#fff!important;font-size:calc(28.8*var(--u));font-weight:700;text-align:center!important}
+.lg-btn{position:absolute;left:calc(63.5*var(--u) + var(--g));top:calc(673.8*var(--u));width:calc(480.8*var(--u));height:calc(72.8*var(--u));border-radius:calc(36.4*var(--u));background:#0062ff!important;color:#fff!important;font-size:calc(28.8*var(--u));font-weight:700;text-align:center!important}
 .lg-err{position:absolute;left:0;right:0;top:calc(772*var(--u));text-align:center;font-size:calc(20*var(--u));font-weight:500;color:#d92d20}
 .lg-adm{position:absolute;left:0;right:0;top:calc(1030*var(--u));text-align:center;font-size:calc(20*var(--u));font-weight:700;color:#767676;line-height:calc(26*var(--u))}
 
 /* ---------- 홈 ---------- */
 .greet{position:absolute;left:calc(45.2*var(--u));top:calc(135.9*var(--u));margin:0;font-size:calc(29.18*var(--u));line-height:calc(37.94*var(--u));font-weight:500;color:#353535}
-.notice{position:absolute;left:calc(17.7*var(--u));top:calc(243.6*var(--u));width:calc(564.6*var(--u));height:calc(63.6*var(--u));background:#001372;border-radius:calc(14*var(--u));color:#fff;display:flex;align-items:center}
+.notice{position:absolute;left:calc(17.7*var(--u));top:calc(243.6*var(--u));width:calc(564.6*var(--u) + 2*var(--g));height:calc(63.6*var(--u));background:#001372;border-radius:calc(14*var(--u));color:#fff;display:flex;align-items:center}
 .notice .bell{position:absolute;left:calc(18*var(--u));top:calc(15.7*var(--u));width:calc(38.3*var(--u));height:auto}
 .notice b{position:absolute;left:calc(67.5*var(--u));font-size:calc(20.67*var(--u));font-weight:700;white-space:nowrap}
 .notice span{position:absolute;left:calc(164.3*var(--u));right:calc(14*var(--u));font-size:calc(20.67*var(--u));font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hero{position:absolute;left:calc(17.7*var(--u));top:calc(319.5*var(--u));width:calc(564.6*var(--u));height:calc(220.7*var(--u));background:#0062ff;border-radius:calc(28*var(--u));color:#fff}
+.hero{position:absolute;left:calc(17.7*var(--u));top:calc(319.5*var(--u));width:calc(564.6*var(--u) + 2*var(--g));height:calc(220.7*var(--u));background:#0062ff;border-radius:calc(28*var(--u));color:#fff}
 .hero h2{position:absolute;left:calc(32.1*var(--u));top:calc(30*var(--u));margin:0;font-size:calc(30.5*var(--u));line-height:calc(40*var(--u));font-weight:500}
 .hero .st{position:absolute;left:calc(208.9*var(--u));top:calc(30.5*var(--u));width:calc(102*var(--u));height:calc(30.9*var(--u));border-radius:calc(15.5*var(--u));background:#001372;font-size:calc(20.35*var(--u));font-weight:500;display:flex;align-items:center;justify-content:center}
 .hero .hd{position:absolute;left:calc(35.1*var(--u));top:calc(80*var(--u));font-size:calc(16.72*var(--u));font-weight:400;color:rgba(255,255,255,.55);white-space:pre}
@@ -51,7 +51,7 @@ body{margin:0}
 .hero .amt{position:absolute;right:calc(31*var(--u));top:calc(134.3*var(--u));display:flex;align-items:baseline;gap:calc(14*var(--u));line-height:1}
 .hero .amt b{font-size:calc(47.8*var(--u));font-weight:700}
 .hero .amt i{font-style:normal;font-size:calc(39.84*var(--u));font-weight:600}
-.row{position:absolute;left:calc(17.7*var(--u));width:calc(564.6*var(--u));height:calc(78.7*var(--u));background:#f4f6f9;border-radius:calc(14*var(--u));display:block}
+.row{position:absolute;left:calc(17.7*var(--u));width:calc(564.6*var(--u) + 2*var(--g));height:calc(78.7*var(--u));background:#f4f6f9;border-radius:calc(14*var(--u));display:block}
 .row img{position:absolute;height:auto}
 .row .lb{position:absolute;left:calc(118.1*var(--u));top:0;height:100%;display:flex;align-items:center;font-size:calc(24*var(--u));font-weight:500;color:#232323}
 .am{position:absolute;right:calc(30.3*var(--u));top:0;height:100%;display:flex;align-items:center;gap:calc(14*var(--u));color:#232323}
@@ -102,14 +102,14 @@ body{margin:0}
 .navy{display:flex;align-items:center;justify-content:center;margin:calc(20*var(--u)) calc(21.2*var(--u)) 0;height:calc(66*var(--u));background:#001372!important;color:#fff!important;border-radius:calc(12*var(--u));font-size:calc(24*var(--u));font-weight:700;width:calc(482.7*var(--u))}
 
 /* ---------- 서브 페이지 공통 ---------- */
-.plogo{left:calc(177.4*var(--u));top:calc(46.1*var(--u));width:calc(248.4*var(--u))}
+.plogo{left:calc(177.4*var(--u) + var(--g));top:calc(46.1*var(--u));width:calc(248.4*var(--u))}
 .sx{right:calc(10*var(--u));top:calc(14*var(--u))}
 .mnav{position:absolute;left:0;right:0;top:calc(152*var(--u));display:flex;align-items:center;justify-content:center;gap:calc(13.2*var(--u))}
 .mnav span{font-size:calc(24.7*var(--u));font-weight:700;color:#262626;line-height:calc(30*var(--u));white-space:nowrap}
 .nv{position:relative;width:calc(22.2*var(--u));height:calc(22.1*var(--u));border-radius:calc(4*var(--u));background:#0062ff!important;display:flex;align-items:center;justify-content:center}
 .nv::after{content:'';position:absolute;inset:calc(-22*var(--u))}
 .nv svg{width:calc(11*var(--u));height:calc(13*var(--u));display:block}
-.shero{position:absolute;left:calc(26.6*var(--u));top:calc(204.2*var(--u));width:calc(546.8*var(--u));height:calc(213.7*var(--u));background:#0062ff;border-radius:calc(28*var(--u));color:#fff}
+.shero{position:absolute;left:calc(26.6*var(--u));top:calc(204.2*var(--u));width:calc(546.8*var(--u) + 2*var(--g));height:calc(213.7*var(--u));background:#0062ff;border-radius:calc(28*var(--u));color:#fff}
 .shero h2{position:absolute;left:calc(31.1*var(--u));top:calc(32*var(--u));margin:0;font-size:calc(29.5*var(--u));line-height:calc(40*var(--u));font-weight:500}
 .shero .st{position:absolute;left:calc(202.4*var(--u));top:calc(29.6*var(--u));width:calc(98.7*var(--u));height:calc(29.9*var(--u));border-radius:calc(15*var(--u));background:#001372;font-size:calc(19.7*var(--u));font-weight:500;display:flex;align-items:center;justify-content:center}
 .shero .hd{position:absolute;left:calc(34*var(--u));top:calc(76*var(--u));font-size:calc(16.2*var(--u));font-weight:400;color:rgba(255,255,255,.55);white-space:pre}
@@ -145,7 +145,7 @@ body{margin:0}
 .ls p{margin:0;font-size:calc(19*var(--u));font-weight:400;line-height:calc(32*var(--u));color:#444;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
 
 /* ---------- 차감 상세 ---------- */
-.dban{position:absolute;left:calc(18.9*var(--u));top:calc(136.5*var(--u));width:calc(564.5*var(--u));height:calc(63.8*var(--u));background:#001372;border-radius:calc(14*var(--u));color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 calc(32*var(--u)) 0 calc(33.6*var(--u))}
+.dban{position:absolute;left:calc(18.9*var(--u));top:calc(136.5*var(--u));width:calc(564.5*var(--u) + 2*var(--g));height:calc(63.8*var(--u));background:#001372;border-radius:calc(14*var(--u));color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 calc(32*var(--u)) 0 calc(33.6*var(--u))}
 .dban span{font-size:calc(25.4*var(--u));font-weight:500}
 .dban .v{display:flex;align-items:baseline;gap:calc(10*var(--u))}
 .dban .v b{font-size:calc(32*var(--u));font-weight:700}
@@ -157,16 +157,16 @@ body{margin:0}
 .dhead .mn{margin-left:auto;display:flex;align-items:center;gap:calc(12*var(--u))}
 .dhead .mn span{font-size:calc(22.4*var(--u));font-weight:700;color:#262626;white-space:nowrap}
 .dhead .nv{width:calc(20.1*var(--u));height:calc(20*var(--u))}
-.dtab{position:absolute;left:calc(17.9*var(--u));top:calc(277.9*var(--u));width:calc(564.5*var(--u));min-height:calc(631*var(--u));background:#f4f6f9;border-radius:calc(20*var(--u));padding-bottom:calc(30*var(--u))}
-.dth,.dtr{display:grid;grid-template-columns:calc(146.2*var(--u)) calc(77.8*var(--u)) calc(209.2*var(--u)) calc(131.3*var(--u));align-items:center;text-align:center}
+.dtab{position:absolute;left:calc(17.9*var(--u));top:calc(277.9*var(--u));width:calc(564.5*var(--u) + 2*var(--g));min-height:calc(631*var(--u));background:#f4f6f9;border-radius:calc(20*var(--u));padding-bottom:calc(30*var(--u))}
+.dth,.dtr{display:grid;grid-template-columns:146.2fr 77.8fr 209.2fr 131.3fr;align-items:center;text-align:center}
 .dth{height:calc(49*var(--u));background:#0062ff;border-radius:calc(14*var(--u));color:#fff;font-size:calc(21*var(--u));font-weight:700}
 .dtr{height:calc(38.6*var(--u));border-bottom:1px solid rgba(0,98,255,.1);font-size:calc(19*var(--u));font-weight:500;color:#262626}
 .dtr b{font-weight:700;color:#0062ff}
 .dtr:first-of-type{margin-top:calc(0*var(--u))}
 .dpad{height:calc(1218.9*var(--u))}
-/* 배포용: 데스크톱에서는 가운데 정렬, 모바일에서는 화면 너비에 맞춤 */
-body{background:#eef1f6}
-.cq{width:min(100vw,430px)!important;height:calc(min(100vw,430px)*844/390)!important;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,.08)}
+/* 배포용: 화면 가로 전체를 채움(PC), 세로 비율은 모바일 기준 유지 */
+body{background:#fff}
+.cq{width:100vw!important;height:calc(min(100vw,430px)*844/390)!important;margin:0}
 </style>
 </helmet>
 
@@ -176,7 +176,7 @@ body{background:#eef1f6}
 <!-- ===================== 로그인 ===================== -->
 <sc-if value="{{isLogin}}" hint-placeholder-val="{{ true }}">
 <div class="scr"><div class="pg" style="height:calc(1218.9*var(--u))">
-  <img class="logo" src="./assets/5482377154ed920d0cb96cd0eca71c1a.svg" alt="이루다Bank" style="left:calc(125.1*var(--u));top:calc(360.2*var(--u));width:calc(363.8*var(--u))">
+  <img class="logo" src="./assets/5482377154ed920d0cb96cd0eca71c1a.svg" alt="이루다Bank" style="left:calc(125.1*var(--u) + var(--g));top:calc(360.2*var(--u));width:calc(363.8*var(--u))">
   <label class="ab" style="left:0;top:0;width:1px;height:1px;overflow:hidden" for="lgid">아이디</label>
   <input id="lgid" class="lg-in" style="top:calc(491.5*var(--u))" type="text" autocomplete="username" placeholder="아이디를 입력해 주세요" value="{{loginId}}" onChange="{{onLoginId}}" onInput="{{onLoginId}}">
   <label class="ab" style="left:0;top:0;width:1px;height:1px;overflow:hidden" for="lgpw">비밀번호</label>
@@ -229,18 +229,18 @@ body{background:#eef1f6}
     <span class="lb">나의 차감내역</span><span class="am"><b>{{h.deduct}}</b><i>원</i></span>
   </button>
 
-  <button class="circ" style="left:calc(114.2*var(--u));top:calc(1030.6*var(--u))" onClick="{{goStmt}}" aria-label="급여명세">
+  <button class="circ" style="left:calc(114.2*var(--u) + var(--g));top:calc(1030.6*var(--u))" onClick="{{goStmt}}" aria-label="급여명세">
     <img src="./assets/e20084dc39b095dc40e211308d018fe9.png" alt="" style="left:calc(20*var(--u));top:calc(19.2*var(--u));width:calc(66.3*var(--u))">
   </button>
-  <span class="cl" style="left:calc(99.2*var(--u));top:calc(1160.6*var(--u))">급여명세</span>
-  <button class="circ" style="left:calc(245.6*var(--u));top:calc(1030.6*var(--u))" onClick="{{goPerf}}" aria-label="실적장표">
+  <span class="cl" style="left:calc(99.2*var(--u) + var(--g));top:calc(1160.6*var(--u))">급여명세</span>
+  <button class="circ" style="left:calc(245.6*var(--u) + var(--g));top:calc(1030.6*var(--u))" onClick="{{goPerf}}" aria-label="실적장표">
     <img src="./assets/ca1f45cd53ed05cbba8c856446aac27f.png" alt="" style="left:calc(21.6*var(--u));top:calc(21.7*var(--u));width:calc(70.7*var(--u))">
   </button>
-  <span class="cl" style="left:calc(230.5*var(--u));top:calc(1160.6*var(--u))">실적장표</span>
-  <button class="circ" style="left:calc(376.1*var(--u));top:calc(1030.6*var(--u))" onClick="{{goLaw}}" aria-label="법률근거">
+  <span class="cl" style="left:calc(230.5*var(--u) + var(--g));top:calc(1160.6*var(--u))">실적장표</span>
+  <button class="circ" style="left:calc(376.1*var(--u) + var(--g));top:calc(1030.6*var(--u))" onClick="{{goLaw}}" aria-label="법률근거">
     <img src="./assets/2b98f594911299983dd2b9a0e03c615c.png" alt="" style="left:calc(17.8*var(--u));top:calc(18.4*var(--u));width:calc(74*var(--u))">
   </button>
-  <span class="cl" style="left:calc(361.0*var(--u));top:calc(1160.6*var(--u))">법률근거</span>
+  <span class="cl" style="left:calc(361.0*var(--u) + var(--g));top:calc(1160.6*var(--u))">법률근거</span>
   
 </div></div>
 </sc-if>
@@ -327,7 +327,7 @@ body{background:#eef1f6}
 <!-- ===================== 차감내역 상세 ===================== -->
 <sc-if value="{{isDetail}}" hint-placeholder-val="{{ false }}">
 <div class="scr"><div class="pg" style="min-height:calc(1218.9*var(--u))">
-  <img class="logo" src="./assets/5482377154ed920d0cb96cd0eca71c1a.svg" alt="이루다Bank" style="left:calc(180.8*var(--u));top:calc(59.6*var(--u));width:calc(249.4*var(--u))">
+  <img class="logo" src="./assets/5482377154ed920d0cb96cd0eca71c1a.svg" alt="이루다Bank" style="left:calc(180.8*var(--u) + var(--g));top:calc(59.6*var(--u));width:calc(249.4*var(--u))">
   <button class="xb sx" onClick="{{backToDeduct}}" aria-label="닫기" style="top:calc(10*var(--u))">x</button>
   <div class="dban"><span>{{dMonthName}} 차감내역</span><span class="v"><b>{{detailTotal}}</b><i>원</i></span></div>
   <div class="dhead">
@@ -445,7 +445,7 @@ class Component extends DCLogic {
   componentWillUnmount() { clearInterval(this.timer); }
   enterApp(store, user) {
     this.lastLaw = JSON.stringify(store.law || []);
-    this.setState({ store, user, screen: 'home', modal: null, loginPw: '', loginErr: '', ym: this.latestYm(store, user) });
+    this.setState({ store, user, screen: 'home', modal: null, loginPw: '', loginErr: '', ym: window.IRUDA.kstPrevYm() });
   }
 
   latestYm(store, user) {
